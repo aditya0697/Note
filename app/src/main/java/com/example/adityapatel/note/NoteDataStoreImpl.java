@@ -3,28 +3,49 @@ package com.example.adityapatel.note;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.prefs.Preferences;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.example.adityapatel.note.New_Note.TAG;
 
 public class NoteDataStoreImpl implements NoteDataStore {
 
     private static NoteDataStoreImpl sInstance;
-    private final List<NoteData> dataList;
-
-    synchronized public static NoteDataStore sharedInstance() {
+    private  List<NoteData> dataList;
+    private static String MyPreference = "MyPref";
+    synchronized public static NoteDataStore sharedInstance(Context context) {
         if (sInstance == null) {
-            sInstance = new NoteDataStoreImpl();
+            sInstance = new NoteDataStoreImpl(context);
         }
         return sInstance;
     }
 
-    private NoteDataStoreImpl() {
+
+    private NoteDataStoreImpl(Context context) {
         dataList = new ArrayList<>();
+
+        try {
+            Log.d(TAG, "NoteDataStoreImpl: Onstart datalist");
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            Gson gson = new Gson();
+            String json = sharedPreferences.getString(MyPreference, null);
+            if(json != null){
+                Type type = new TypeToken<List<NoteData>>() {}.getType();
+                dataList = gson.fromJson(json, type);
+            }
+
+        } catch (NullPointerException e) {
+            Log.d(TAG, "NoteDataStoreImpl: Onstart datalist");
+        }
     }
 
     @Override
@@ -45,17 +66,9 @@ public class NoteDataStoreImpl implements NoteDataStore {
 
     @Override
     public List<NoteData> getNotes() {
-        return dataList;
+
+            return dataList;
+
     }
 
-    @Override
-    public void storeNote(Context context) {
-        /*Set<String> noteSet =*/
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString("noteTitle", dataList.toString());
-    }
-
-    void dddd() {}
 }

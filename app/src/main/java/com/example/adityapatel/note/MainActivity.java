@@ -28,13 +28,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     public static final String MyPreference = "MyPref";
-    public static final String NoteCount = "noteKey";
     private ArrayList<NoteData> note = new ArrayList<>();
     public NoteDataStore dataStore;
-    //private ArrayList<String> note_date = new ArrayList<>();
-    //private ArrayList<String> note_text = new ArrayList<>();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +37,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //dataStore = NoteDataStoreImpl.sharedInstance();
+        dataStore = NoteDataStoreImpl.sharedInstance(getApplicationContext());
         //dataStore.getNotes();
         Log.d(TAG, "onCreate: hooooooooooooooooooooo");
         //ListView listView1 = findViewById(R.id.list1);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,28 +56,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(dataStore.getNotes());
+        editor.putString(MyPreference,json);
+        editor.apply();
+    }
 
-
-   /* private void initData(){
-        Log.d(TAG, "initData: initdata");
-        Log.d(TAG, "onCreate:  Not null preference");
-        String json = sharedPreferences.getString("noteKey","null");
-        Log.d(TAG, "onCreate: "+ json);
-            if(json == "null"){
-                Log.d(TAG, "onCreate: json null");
-                }
-            else{
-                //String json = sharedPreferences.getString(NoteCount,null);
-                Log.d(TAG, "I am here");
-                Gson gson = new Gson();
-                Type type = new TypeToken<ArrayList<NoteData>>(){}.getType();
-                note = gson.fromJson(json,type);}
-                Log.d(TAG, "initData: note size  " +note.size());
-            // Log.d(TAG, "onCreate: GsonAfter"+note.get(0).toString());
-
-
-
-    }*/
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: init recyclerview 12222");
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
@@ -116,8 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
-        moveTaskToBack(true);
-
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
     }
 }

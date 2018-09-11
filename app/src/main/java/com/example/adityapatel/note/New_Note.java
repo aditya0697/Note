@@ -3,6 +3,7 @@ package com.example.adityapatel.note;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -24,8 +25,6 @@ import java.util.Date;
 public class New_Note extends AppCompatActivity {
 
     public static final String TAG = "ss";
-    public static final String MyPreference = "MyPref";
-    public static final String NoteCount = "noteKey";
     EditText edName, edNote;
     private NoteDataStore dataStore;
 
@@ -35,15 +34,13 @@ public class New_Note extends AppCompatActivity {
         setContentView(R.layout.activity_new__note);
         edName = findViewById(R.id.name);
         edNote = findViewById(R.id.note);
-        dataStore = NoteDataStoreImpl.sharedInstance();
+        dataStore = NoteDataStoreImpl.sharedInstance(getApplicationContext());
         Log.d("newnote", dataStore.getNotes().toString());
         }
 
     @Override
     public void onBackPressed() {
         Log.d(TAG, "onback");
-        dataStore.getNotes();
-        // check if page 2 is open
         Toast.makeText(New_Note.this,"Back Press",Toast.LENGTH_SHORT).show();
         String name = edName.getText().toString();
         String note_content = edNote.getText().toString();
@@ -86,7 +83,8 @@ public class New_Note extends AppCompatActivity {
     public static String getTimeStamp(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentDateTime = dateFormat.format(new Date());
-
         return currentDateTime;
         }
+
+
 }

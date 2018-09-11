@@ -4,7 +4,7 @@ package com.example.adityapatel.note;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class NoteData implements Parcelable {
+public class NoteData {
     private String note_name;
     private String note_content;
     private String note_timestamp;
@@ -38,40 +38,5 @@ public class NoteData implements Parcelable {
     public void setNote_timestamp(String note_timestamp) {
         this.note_timestamp = note_timestamp;
     }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.note_name);
-        dest.writeString(this.note_content);
-        dest.writeString(this.note_timestamp);
-
-    }
-
-    private NoteData(Parcel in) {
-        String noteName = in.readString();
-        String noteContent  = in.readString();
-        String timeStamp = in.readString();
-    }
-
-
-    public static final Parcelable.Creator<NoteData> CREATOR = new Parcelable.Creator<NoteData>(){
-
-        @Override
-        public NoteData createFromParcel(Parcel source) {
-            return new NoteData(source);
-        }
-
-        @Override
-        public NoteData[] newArray(int size) {
-            return new NoteData[size];
-        }
-    };
-
 
 }

@@ -1,6 +1,7 @@
 package com.example.adityapatel.note;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 
 import java.util.List;
 
@@ -11,8 +12,6 @@ public interface NoteDataStore {
     void updateNote(int oldNoteToBeUpdated, NoteData newNote);
 
     void deleteNote(int noteToBeDeleted);
-
-    void storeNote(Context context);
 
     List<NoteData> getNotes();
 
