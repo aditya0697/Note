@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -109,7 +110,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView note_Name;
         TextView note_Date;
         TextView note_Text;
-        RelativeLayout parent_Layout;
+        ConstraintLayout parent_Layout;
 
         public ViewHolder(View itemView) {
             super(itemView);
