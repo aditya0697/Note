@@ -10,28 +10,57 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="-17dp"
-        tools:layout_editor_absoluteY="-36dp"
+        android:gravity="center_horizontal"
+        android:background="#dcedc8"
         tools:ignore="MissingConstraints">
 
-        <EditText
-            android:id="@+id/editText2"
+        <android.support.design.card.MaterialCardView
+            android:id="@+id/cd1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="16dp" />
+            android:layout_height="450dp"
+            android:layout_margin="20dp"
+            android:background="#c8e6c9"
+            android:clipToPadding="false"
+            app:cardCornerRadius="15dp"
+            app:cardBackgroundColor="#f5f5f5"
+            android:outlineAmbientShadowColor="#ffccbc"
+            android:outlineSpotShadowColor="#ffccbc">
 
-        <EditText
-            android:id="@+id/editText3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            tools:layout_editor_absoluteX="24dp"
-            tools:layout_editor_absoluteY="82dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/editText2"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:textColorHint="#455a64"
+                    android:background="#fff3e0"
+                    android:hint="  Title"
+                    android:textSize="20sp"
+                    android:textStyle="normal" />
+
+
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/editText3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="start"
+                    android:layout_margin="10dp"
+                    android:textColorHint="#37474f"
+                    android:textEditPasteWindowLayout="@style/Theme.AppCompat.Light.DarkActionBar"
+                    android:background="#fbe9e7"
+                    android:hint="Type Anything..."
+                    android:padding="7dp" />
+
+
+            </LinearLayout>
+        </android.support.design.card.MaterialCardView>
+
     </LinearLayout>
 
 
