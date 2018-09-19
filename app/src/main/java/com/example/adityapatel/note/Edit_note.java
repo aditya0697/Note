@@ -1,7 +1,9 @@
 package com.example.adityapatel.note;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,6 +24,9 @@ import java.util.Date;
 public class Edit_note extends AppCompatActivity  {
 
     private NoteDataStore dataStore;
+    private double latitude;
+    private double longitude;
+    BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +39,17 @@ public class Edit_note extends AppCompatActivity  {
         int position = getIntent().getIntExtra("position",-1);
         editText2.setText(dataStore.getNotes().get(position).getNote_name());
         editText3.setText(dataStore.getNotes().get(position).getNote_content());
+        IntentFilter intentFilter = new IntentFilter();
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent != null) {
+                    latitude = intent.getDoubleExtra("latitude", -1);
+                    longitude = intent.getDoubleExtra("longitude", -1);
+                }
+            }
+        };
+        registerReceiver(broadcastReceiver, intentFilter);
     }
 
     EditText editText2;
@@ -45,7 +61,7 @@ public class Edit_note extends AppCompatActivity  {
         String body = editText3.getText().toString();
         String date = getTimeStamp();
         int position = getIntent().getIntExtra("position",-1);
-        NoteData newNote = new NoteData(title,body,date);
+        NoteData newNote = new NoteData(title,body,date, latitude, longitude );
         dataStore.updateNote(position,newNote);
        // dataStore.storeNotes(getApplicationContext());
         Toast.makeText(this,"Edited", Toast.LENGTH_SHORT).show();

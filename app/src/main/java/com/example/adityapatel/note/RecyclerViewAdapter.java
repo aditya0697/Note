@@ -95,7 +95,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
+       // Log.d(TAG, Double.toString(dataStore.getNotes().get(0).getLatitude()));
+
         Log.d(TAG, "getItemCount: " + dataStore.getNotes().size());
+
         return dataStore.getNotes().size();
     }
 
