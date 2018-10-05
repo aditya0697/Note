@@ -30,14 +30,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        for (int i = 0; i < dataStore.getNotes().size(); i++) {
-
-        }
-    }
-
-    @Override
     public void onMapReady(GoogleMap googleMap) {
         if (googleMap != null) {
             mGoogleMap = googleMap;
@@ -48,15 +40,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void showMarkers() {
         double latitude;
         double longitude;
-         String titleNote;
+        String titleNote;
         for (int i = 0; i < dataStore.getNotes().size(); i++) {
             latitude = dataStore.getNotes().get(i).getLatitude();
             longitude = dataStore.getNotes().get(i).getLongitude();
             titleNote = dataStore.getNotes().get(i).getNote_name();
-            LatLng goldenGate = new LatLng(latitude, longitude);
-            Log.d("mapactiviy", goldenGate.toString());
-            mGoogleMap.addMarker(new MarkerOptions().position(goldenGate).title(titleNote));
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(goldenGate));
+            LatLng noteCoordinates = new LatLng(latitude, longitude);
+            Log.d("mapactiviy", noteCoordinates.toString());
+            mGoogleMap.addMarker(new MarkerOptions().position(noteCoordinates).title(titleNote));
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(noteCoordinates));
         }
 
     }

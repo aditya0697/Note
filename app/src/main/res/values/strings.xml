@@ -13,4 +13,8 @@
     <string name="ok">OK</string>
     <string name="request_location_updates">Request location updates</string>
     <string name="remove_location_updates">Remove location updates</string>
+    <string name="email_hint">Enter your Email</string>
+    <string name="password_hint">Password</string>
+    <string name="loginBtnText">Sign In!</string>
+    <string name="signUpBtnText">New User? Sign Up!</string>
 </resources>
