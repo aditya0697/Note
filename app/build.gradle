@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 28
     dataBinding.enabled = true
@@ -25,18 +25,18 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0-rc01'
     implementation 'com.google.code.gson:gson:2.7'
-    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'com.google.android.gms:play-services-location:15.0.0'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    //RecyclerView
-    //implementation 'com.android.support:preference-v7:27.1.1'
-
-    // glide
-
-    // This is a test message.
 
 
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.firebase:firebase-auth:16.0.1'
+    implementation 'com.google.firebase:firebase-database:16.0.1'
+
 }

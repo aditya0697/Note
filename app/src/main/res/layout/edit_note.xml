@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:background="#dcedc8"
+        android:background="@color/newNoteBackground"
         tools:ignore="MissingConstraints">
 
         <android.support.design.card.MaterialCardView
@@ -19,12 +19,12 @@
             android:layout_width="match_parent"
             android:layout_height="450dp"
             android:layout_margin="20dp"
-            android:background="#c8e6c9"
+            android:background="@color/colorPrimaryDark"
             android:clipToPadding="false"
             app:cardCornerRadius="15dp"
-            app:cardBackgroundColor="#f5f5f5"
-            android:outlineAmbientShadowColor="#ffccbc"
-            android:outlineSpotShadowColor="#ffccbc">
+            app:cardBackgroundColor="@color/noteCadrView"
+            android:outlineAmbientShadowColor="@color/newNoteAmbientShadowColor"
+            android:outlineSpotShadowColor="@color/newNoteSpotShadowColor">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                     android:layout_height="50dp"
                     android:layout_margin="10dp"
                     android:textColorHint="#455a64"
-                    android:background="#fff3e0"
+                    android:background="@color/noteTitleBackground"
                     android:hint="  Title"
                     android:textSize="20sp"
                     android:textStyle="normal" />
@@ -53,7 +53,7 @@
                     android:layout_margin="10dp"
                     android:textColorHint="#37474f"
                     android:textEditPasteWindowLayout="@style/Theme.AppCompat.Light.DarkActionBar"
-                    android:background="#fbe9e7"
+                    android:background="@color/noteContentBackground"
                     android:hint="Type Anything..."
                     android:padding="7dp" />
 

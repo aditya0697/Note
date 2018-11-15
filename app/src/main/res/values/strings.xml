@@ -2,6 +2,7 @@
     <string name="app_name">Note</string>
     <string name="map">Show Map</string>
     <string name="title_activity_new__notes">New_Notes</string>
+    <string name="node_users">users</string>
     <string name="APIKey">AIzaSyAy1OcbnQ3VXBgaeRGmPisYNwLC9tKhgDU</string>
     <string name="launch_activity">Launch activity</string>
     <string name="location_unknown">Location unknown</string>
@@ -13,4 +14,11 @@
     <string name="ok">OK</string>
     <string name="request_location_updates">Request location updates</string>
     <string name="remove_location_updates">Remove location updates</string>
+    <string name="loading">Loading...</string>
+    <string name="navigation_drawer_open">Open Navigation drawer</string>
+    <string name="navigation_drawer_close">Close Navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="action_settings">Settings</string>
+    <string name="nav_header_subtitle">Android Studioeee</string>
+    <string name="nav_header_desc">Setting</string>
 </resources>

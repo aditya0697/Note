@@ -20,6 +20,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -40,7 +41,12 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -54,17 +60,21 @@ public class New_Note extends AppCompatActivity {
     public static final String TAG = "ss";
     EditText edName, edNote;
     private NoteDataStore dataStore;
-    MyReceiver myReceiver;
-    private NoteLocation noteLocation = null;
+    private static final int LOCTION_PERMISSION_REQUEST_CODE = 123;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+    private boolean mLocationPermissionGranted = false;
+    private static LatLng currentlatlng;
+
+  //  private NoteLocation noteLocation = null;
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     private boolean mbound = false;
     private Location mlocation;
+    FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
 
     private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             NoteLocation.LocalBinder localBinder = (NoteLocation.LocalBinder) service;
-            noteLocation = localBinder.getService();
             mbound = true;
 
         }
@@ -81,53 +91,54 @@ public class New_Note extends AppCompatActivity {
         setContentView(R.layout.activity_new__note);
         edName = findViewById(R.id.name);
         edNote = findViewById(R.id.note);
-        dataStore = NoteDataStoreImpl.sharedInstance(getApplicationContext());
-            if (!checkPermissions()) {
-                requestPermissions();
-                }
-        myReceiver = new MyReceiver();
+        dataStore = NoteDataStoreImpl.sharedInstance();
+        getLocationPermossion();
 
     }
+    private void getDeviceLocation(){
+        Log.d(TAG, "getDeviceLocation: getting the device current location");
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        try{
+            if(mLocationPermissionGranted){
+                final Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(task.isSuccessful()){
+                            Log.d(TAG, "onComplete: found location");
+                            Location currentLocation = (Location ) task.getResult();
+                            currentlatlng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
 
+                        }else {
+                            Log.d(TAG, "onComplete: Not found location");
+                            currentlatlng = new LatLng(63.129887, -151.197418);
+                            Toast.makeText(New_Note.this,"unable to get current location",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }catch (SecurityException e){
+            Log.d(TAG, "getDeviceLocation: Exception "+e.getMessage());
+        }
+    }
 
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(mbound) {
-            if (!checkPermissions()) {
-                requestPermissions();
-            }
-        }
-        bindService(new Intent(this, NoteLocation.class), serviceConnection,
-                Context.BIND_AUTO_CREATE);
-
-
-
-
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(myReceiver,
-                new IntentFilter(NoteLocation.ACTION_BROADCAST));
-    }
+
 
     @Override
     protected void onPause() {
         super.onPause();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(myReceiver);
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if(mbound){
-            unbindService(serviceConnection);
-            Log.d("unbind","service unbinded");
-            mbound = false;
-        }
     }
 
     @Override
@@ -136,17 +147,18 @@ public class New_Note extends AppCompatActivity {
         Toast.makeText(New_Note.this, "Back Press", Toast.LENGTH_SHORT).show();
         String name = edName.getText().toString();
         String note_content = edNote.getText().toString();
-        Double latitude = mlocation.getLatitude();
-        Double longitude = mlocation.getLongitude();
+
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(note_content)) {
             finish();
             return;
         }
-        NoteData newNote = new NoteData(name, note_content, getTimeStamp(), latitude, longitude);
+
+        NoteData newNote = new NoteData(currentFirebaseUser.getUid(),name, note_content, getTimeStamp(), currentlatlng);
         dataStore.addNote(newNote);
-        Intent intent;
+        finish();
+        /*Intent intent;
         intent = new Intent(New_Note.this, MainActivity.class);
-        startActivity(intent);
+        startActivity(intent);*/
 
     }
 
@@ -173,15 +185,6 @@ public class New_Note extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class MyReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            mlocation = intent.getParcelableExtra("location");
-            Log.d("got location", mlocation.toString());
-
-        }
-    }
 
 
 
@@ -192,9 +195,26 @@ public class New_Note extends AppCompatActivity {
         return currentDateTime;
     }
 
-    private boolean checkPermissions() {
-        return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION);
+    private void getLocationPermossion() {
+        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
+
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                mLocationPermissionGranted = true;
+                getDeviceLocation();
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        permissions,
+                        LOCTION_PERMISSION_REQUEST_CODE);
+            }
+
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    permissions,
+                    LOCTION_PERMISSION_REQUEST_CODE);
+        }
     }
 
     private void requestPermissions() {
@@ -239,10 +259,12 @@ public class New_Note extends AppCompatActivity {
             if (grantResults.length <= 0) {
                 // If user interaction was interrupted, the permission request is cancelled and you
                 // receive empty arrays.
+
                 Log.i(TAG, "User interaction was cancelled.");
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission was granted.
-                noteLocation.getLocationUpdates();
+                mLocationPermissionGranted = true;
+                getDeviceLocation();
             } else {
                 // Permission denied.
                 Snackbar.make(
@@ -251,6 +273,7 @@ public class New_Note extends AppCompatActivity {
                         Snackbar.LENGTH_INDEFINITE)
                         .setAction(R.string.settings, new View.OnClickListener() {
                             @Override
+
                             public void onClick(View view) {
                                 // Build intent that displays the App settings screen.
                                 Intent intent = new Intent();

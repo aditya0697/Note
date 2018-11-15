@@ -12,6 +12,9 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,13 +30,13 @@ public class Edit_note extends AppCompatActivity  {
     private double latitude;
     private double longitude;
     BroadcastReceiver broadcastReceiver;
-
+    private FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_note);
         Log.d("dd","in here create");
-        dataStore = NoteDataStoreImpl.sharedInstance(getApplicationContext());
+        dataStore = NoteDataStoreImpl.sharedInstance();
         editText2 = findViewById(R.id.editText2);
         editText3 = findViewById(R.id.editText3);
         int position = getIntent().getIntExtra("position",-1);
@@ -46,6 +49,7 @@ public class Edit_note extends AppCompatActivity  {
                 if(intent != null) {
                     latitude = intent.getDoubleExtra("latitude", -1);
                     longitude = intent.getDoubleExtra("longitude", -1);
+
                 }
             }
         };
@@ -61,7 +65,8 @@ public class Edit_note extends AppCompatActivity  {
         String body = editText3.getText().toString();
         String date = getTimeStamp();
         int position = getIntent().getIntExtra("position",-1);
-        NoteData newNote = new NoteData(title,body,date, latitude, longitude );
+        LatLng latLng = new LatLng(latitude,longitude);
+        NoteData newNote = new NoteData(currentUser.getUid(),title,body,date, latLng);
         dataStore.updateNote(position,newNote);
        // dataStore.storeNotes(getApplicationContext());
         Toast.makeText(this,"Edited", Toast.LENGTH_SHORT).show();
