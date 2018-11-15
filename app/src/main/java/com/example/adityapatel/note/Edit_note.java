@@ -69,7 +69,6 @@ public class Edit_note extends AppCompatActivity  {
         NoteData newNote = new NoteData(currentUser.getUid(),title,body,date, latLng);
         dataStore.updateNote(position,newNote);
        // dataStore.storeNotes(getApplicationContext());
-        Toast.makeText(this,"Edited", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
 

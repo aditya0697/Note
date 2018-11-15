@@ -32,14 +32,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        for (int i = 0; i < dataStore.getNotes().size(); i++) {
-
-        }
-    }
-
-    @Override
     public void onMapReady(GoogleMap googleMap) {
         if (googleMap != null) {
             mGoogleMap = googleMap;
@@ -50,10 +42,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void showMarkers() {
         double latitude;
         double longitude;
+<<<<<<< HEAD
 
          String titleNote;
+=======
+        String titleNote;
+>>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
         for (int i = 0; i < dataStore.getNotes().size(); i++) {
             titleNote = dataStore.getNotes().get(i).getNote_name();
+<<<<<<< HEAD
             LatLng latLng = dataStore.getNotes().get(i).getLatLng();
 
             mGoogleMap.addMarker(new MarkerOptions()
@@ -70,6 +67,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             int last = dataStore.getNotes().size() - 1;
             LatLng last_note_location = dataStore.getNotes().get(last).getLatLng();
             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_note_location, DEFAUL_ZOOM));
+=======
+            LatLng noteCoordinates = new LatLng(latitude, longitude);
+            Log.d("mapactiviy", noteCoordinates.toString());
+            mGoogleMap.addMarker(new MarkerOptions().position(noteCoordinates).title(titleNote));
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(noteCoordinates));
+>>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
         }
     }
 
