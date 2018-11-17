@@ -21,5 +21,7 @@ public interface NoteDataStore {
     List<NoteData> getNotes();
 
     <T> void registerSubject(Consumer<T> consumer);
+    void load_notes();
+    void clear();
 
 }

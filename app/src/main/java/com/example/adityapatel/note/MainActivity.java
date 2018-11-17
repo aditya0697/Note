@@ -1,19 +1,12 @@
 package com.example.adityapatel.note;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-<<<<<<< HEAD
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-=======
->>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,47 +15,20 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-<<<<<<< HEAD
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Semaphore;
-=======
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.gson.Gson;
-
->>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         Consumer<List<NoteData>> {
     private static final String TAG = "MainActivity";
-    public static final String MyPreference = "MyPref";
     public NoteDataStore dataStore;
-    private FirebaseAuth mFirebaseAuth;
-
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private static int activity_call_count = 0;
     private static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private static DatabaseReference mDatabase_get = FirebaseDatabase.getInstance().getReference().child("user-notes").child(user.getUid()) ;
-    private ProgressBar mProgressBar;
-    List<NoteData> noteList = new ArrayList<>();
-
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
 
@@ -71,26 +37,20 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dataStore = NoteDataStoreImpl.sharedInstance();
-
+        dataStore.load_notes();
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
-<<<<<<< HEAD
 
-=======
-        dataStore = NoteDataStoreImpl.sharedInstance(getApplicationContext());
-        mFirebaseAuth = FirebaseAuth.getInstance();
->>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent;
-                intent = new Intent(MainActivity.this, New_Note.class);
+                intent = new Intent(MainActivity.this, NewNote.class);
                 startActivity(intent);
             }
         });
 
-<<<<<<< HEAD
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -101,41 +61,12 @@ public class MainActivity extends AppCompatActivity implements
         navigationView.setNavigationItemSelectedListener(this);
         dataStore.registerSubject(this);
         initRecyclerView();
-=======
->>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
 
-    }
-
-
-    private void updateUI(FirebaseUser currentUser) {
-
-        Toast.makeText(this, currentUser.toString(), Toast.LENGTH_SHORT).show();
-
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (mFirebaseAuth == null){
-            Intent i = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(i);
-            finish();
-        }
-        else {
-            initRecyclerView();
-        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(dataStore.getNotes());
-        editor.putString(MyPreference, json);
-        editor.apply();
     }
 
     private void initRecyclerView() {
@@ -153,7 +84,9 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void consume(List<NoteData> objects) {
+        adapter.clear();
         adapter.addNotes(objects);
+
     }
 
     @Override
@@ -210,33 +143,20 @@ public class MainActivity extends AppCompatActivity implements
         }else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_signout) {
-            mAuth.signOut();
+            dataStore.logoutUser();
+            dataStore.clear();
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
+
+            adapter.clear();
+
+            finish();
         }
-
-
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             return true;
         }
-
-
-
-    private void showProgressBar() {
-        mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    private void hideProgressBar() {
-        if (mProgressBar.getVisibility() == View.VISIBLE) {
-            mProgressBar.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    private void initProgressBar() {
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        mProgressBar.setVisibility(View.INVISIBLE);
-    }
 
 }

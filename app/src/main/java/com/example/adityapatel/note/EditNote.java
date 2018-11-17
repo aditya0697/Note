@@ -24,13 +24,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Edit_note extends AppCompatActivity  {
+public class EditNote extends AppCompatActivity  {
 
     private NoteDataStore dataStore;
     private double latitude;
     private double longitude;
-    BroadcastReceiver broadcastReceiver;
+    private String noteId;
+    private String date;
+    private BroadcastReceiver broadcastReceiver;
     private FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,19 +43,13 @@ public class Edit_note extends AppCompatActivity  {
         editText2 = findViewById(R.id.editText2);
         editText3 = findViewById(R.id.editText3);
         int position = getIntent().getIntExtra("position",-1);
+        latitude = dataStore.getNotes().get(position).getLatitude();
+        longitude = dataStore.getNotes().get(position).getLongitude();
+        noteId = dataStore.getNotes().get(position).getNoteId();
+        date = dataStore.getNotes().get(position).getNote_timestamp();
         editText2.setText(dataStore.getNotes().get(position).getNote_name());
         editText3.setText(dataStore.getNotes().get(position).getNote_content());
         IntentFilter intentFilter = new IntentFilter();
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if(intent != null) {
-                    latitude = intent.getDoubleExtra("latitude", -1);
-                    longitude = intent.getDoubleExtra("longitude", -1);
-
-                }
-            }
-        };
         registerReceiver(broadcastReceiver, intentFilter);
     }
 
@@ -63,25 +60,13 @@ public class Edit_note extends AppCompatActivity  {
     public void onBackPressed() {
         String title = editText2.getText().toString();
         String body = editText3.getText().toString();
-        String date = getTimeStamp();
         int position = getIntent().getIntExtra("position",-1);
-        LatLng latLng = new LatLng(latitude,longitude);
-        NoteData newNote = new NoteData(currentUser.getUid(),title,body,date, latLng);
+        NoteData newNote = new NoteData(currentUser.getUid(),title,body,date, latitude,longitude,noteId);
         dataStore.updateNote(position,newNote);
        // dataStore.storeNotes(getApplicationContext());
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
+        finish();
 
     }
-
-
-    public static String getTimeStamp(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentDateTime = dateFormat.format(new Date());
-
-        return currentDateTime;
-    }
-
 
 
 }

@@ -1,32 +1,19 @@
-{
-  "project_info": {
-<<<<<<< HEAD
-    "project_number": "501259673819",
-    "firebase_url": "https://note-40b8e.firebaseio.com",
-    "project_id": "note-40b8e",
-    "storage_bucket": "note-40b8e.appspot.com"
-=======
-    "project_number": "7108290617",
-    "firebase_url": "https://note-master-79691.firebaseio.com",
-    "project_id": "note-master-79691",
-    "storage_bucket": "note-master-79691.appspot.com"
->>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
-  },
+{"project_info": {
+  "project_number": "501259673819",
+  "firebase_url": "https://note-40b8e.firebaseio.com",
+  "project_id": "note-40b8e",
+  "storage_bucket": "note-40b8e.appspot.com"
+},
   "client": [
     {
       "client_info": {
-<<<<<<< HEAD
         "mobilesdk_app_id": "1:501259673819:android:a013691de7a1825b",
-=======
-        "mobilesdk_app_id": "1:7108290617:android:a013691de7a1825b",
->>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
         "android_client_info": {
           "package_name": "com.example.adityapatel.note"
         }
       },
       "oauth_client": [
         {
-<<<<<<< HEAD
           "client_id": "501259673819-phunmlhm4baui9e4ups4b1m9jsgarga2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -36,27 +23,12 @@
         },
         {
           "client_id": "501259673819-hqjc0h48a9cbdmtmmiomhhs4r1hb04fo.apps.googleusercontent.com",
-=======
-          "client_id": "7108290617-f27uqagu4k4cghfcluq0fnhtv1gt4q4q.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.adityapatel.note",
-            "certificate_hash": "cdd911d95e41225d2b518147e8263915e77dc363"
-          }
-        },
-        {
-          "client_id": "7108290617-uj5r4c65caq2ao774567b24a4llon0p1.apps.googleusercontent.com",
->>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
           "client_type": 3
         }
       ],
       "api_key": [
         {
-<<<<<<< HEAD
           "current_key": "AIzaSyDLilxJTW_GkiRA6EOuc_O01UrXJ-o5GTo"
-=======
-          "current_key": "AIzaSyCRxB6zLRIjrVw5uToqf8nb-La4_YBGz1I"
->>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
         }
       ],
       "services": {
@@ -67,11 +39,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-<<<<<<< HEAD
               "client_id": "501259673819-hqjc0h48a9cbdmtmmiomhhs4r1hb04fo.apps.googleusercontent.com",
-=======
-              "client_id": "7108290617-uj5r4c65caq2ao774567b24a4llon0p1.apps.googleusercontent.com",
->>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
               "client_type": 3
             }
           ]

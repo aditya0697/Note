@@ -28,14 +28,26 @@ public class NoteData{
     private String note_name;
     private String note_content;
     private String note_timestamp;
-    private LatLng latLng;
+    private Double latitude;
+    private Double longitude;
 
-    public NoteData(String userId,String note_name, String note_content, String note_timestamp, LatLng latLng) {
+
+    public NoteData(String userId,String note_name, String note_content, String note_timestamp, Double latitude, Double longitude) {
         this.userId = userId;
         this.note_name = note_name;
         this.note_content = note_content;
         this.note_timestamp = note_timestamp;
-        this.latLng = latLng;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+    public NoteData(String userId,String note_name, String note_content, String note_timestamp, Double latitude, Double longitude, String noteId) {
+        this.userId = userId;
+        this.note_name = note_name;
+        this.note_content = note_content;
+        this.note_timestamp = note_timestamp;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.noteId = noteId;
     }
 
     public String getUserId() {
@@ -49,13 +61,20 @@ public class NoteData{
     public NoteData() {
     }
 
-    public LatLng getLatLng() {
-
-        return latLng;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public void setLatLng(LatLng latLng) {
-        this.latLng = latLng;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public String getNote_name() {
@@ -81,13 +100,15 @@ public class NoteData{
     public void setNote_timestamp(String note_timestamp) {
         this.note_timestamp = note_timestamp;
     }
+
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("userId", userId);
-        result.put("note_title", note_name);
-        result.put("note_content", note_content);
-        result.put("note_timestamp", note_timestamp);
-        result.put("note_latlng", latLng);
+        result.put("title", note_name);
+        result.put("content", note_content);
+        result.put("timestamp", note_timestamp);
+        result.put("latitude", latitude);
+        result.put("longitude", longitude);
 
         return result;
     }

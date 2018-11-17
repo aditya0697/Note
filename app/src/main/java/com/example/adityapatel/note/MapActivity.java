@@ -20,7 +20,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private NoteDataStore dataStore;
     GoogleMap mGoogleMap;
-    private static final float DEFAUL_ZOOM = 50f;
+    private static final float DEFAUL_ZOOM = 10f;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,18 +40,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void showMarkers() {
-        double latitude;
-        double longitude;
-<<<<<<< HEAD
+        double latitude = 0;
+        double longitude = 0;
 
-         String titleNote;
-=======
         String titleNote;
->>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
+
         for (int i = 0; i < dataStore.getNotes().size(); i++) {
             titleNote = dataStore.getNotes().get(i).getNote_name();
-<<<<<<< HEAD
-            LatLng latLng = dataStore.getNotes().get(i).getLatLng();
+            latitude = dataStore.getNotes().get(i).getLatitude();
+            longitude = dataStore.getNotes().get(i).getLongitude();
+            LatLng latLng = new LatLng(latitude,longitude);
 
             mGoogleMap.addMarker(new MarkerOptions()
                     .position(latLng)
@@ -65,14 +63,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(denaliNationPark, DEFAUL_ZOOM));
         }else {
             int last = dataStore.getNotes().size() - 1;
-            LatLng last_note_location = dataStore.getNotes().get(last).getLatLng();
+            latitude = dataStore.getNotes().get(last).getLatitude();
+            longitude = dataStore.getNotes().get(last).getLongitude();
+            LatLng last_note_location = new LatLng(latitude,longitude);
             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_note_location, DEFAUL_ZOOM));
-=======
-            LatLng noteCoordinates = new LatLng(latitude, longitude);
-            Log.d("mapactiviy", noteCoordinates.toString());
-            mGoogleMap.addMarker(new MarkerOptions().position(noteCoordinates).title(titleNote));
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(noteCoordinates));
->>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
+
+
         }
     }
 
