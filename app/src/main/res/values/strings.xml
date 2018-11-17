@@ -3,7 +3,7 @@
     <string name="map">Show Map</string>
     <string name="title_activity_new__notes">New_Notes</string>
     <string name="node_users">users</string>
-    <string name="APIKey">AIzaSyAy1OcbnQ3VXBgaeRGmPisYNwLC9tKhgDU</string>
+  
     <string name="launch_activity">Launch activity</string>
     <string name="location_unknown">Location unknown</string>
     <string name="location_updates_label">Location Updates</string>
