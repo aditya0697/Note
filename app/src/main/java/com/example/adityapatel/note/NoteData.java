@@ -1,14 +1,7 @@
 package com.example.adityapatel.note;
 
 
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
+import android.graphics.Bitmap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,27 +9,78 @@ import java.util.Map;
 public class NoteData{
     private String userId;
     private String noteId;
-
-    public String getNoteId() {
-        return noteId;
-    }
-
-    public void setNoteId(String noteId) {
-        this.noteId = noteId;
-    }
-
     private String note_name;
     private String note_content;
     private String note_timestamp;
-    private LatLng latLng;
+    private Double latitude;
+    private Double longitude;
+    private String imageId;
+    private Bitmap image;
+    private String imagePath;
 
-    public NoteData(String userId,String note_name, String note_content, String note_timestamp, LatLng latLng) {
+    public NoteData(String userId,String note_name, String note_content, String note_timestamp, Double latitude, Double longitude) {
         this.userId = userId;
         this.note_name = note_name;
         this.note_content = note_content;
         this.note_timestamp = note_timestamp;
-        this.latLng = latLng;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
+
+    public NoteData(String userId,String note_name, String note_content, String note_timestamp, Double latitude, Double longitude, String noteId) {
+        this.userId = userId;
+        this.note_name = note_name;
+        this.note_content = note_content;
+        this.note_timestamp = note_timestamp;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.noteId = noteId;
+    }
+
+    public NoteData(String userId,String note_name, String note_content, String note_timestamp, Double latitude, Double longitude, String noteId, String imageId){
+        this.userId = userId;
+        this.note_name = note_name;
+        this.note_content = note_content;
+        this.note_timestamp = note_timestamp;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.noteId = noteId;
+        this.imageId = imageId;
+    }
+    public NoteData(String userId,String note_name, String note_content, String note_timestamp, Double latitude, Double longitude, String noteId, String imageId, String imagePath){
+        this.userId = userId;
+        this.note_name = note_name;
+        this.note_content = note_content;
+        this.note_timestamp = note_timestamp;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.noteId = noteId;
+        this.imageId = imageId;
+        this.imagePath = imagePath;
+    }
+
+
+    public NoteData(String userId, String note_name, String note_content, String note_timestamp, Double latitude, Double longitude, String noteId, Bitmap image){
+        this.userId = userId;
+        this.note_name = note_name;
+        this.note_content = note_content;
+        this.note_timestamp = note_timestamp;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.noteId = noteId;
+        this.image = image;
+    }
+
+    public NoteData() { }
+
+
+    public String getImageId() { return imageId; }
+
+    public void setImageId(String imageId) { this.imageId = imageId; }
+
+    public Bitmap getImage() { return image; }
+
+    public void setImage(Bitmap image) { this.image = image; }
 
     public String getUserId() {
         return userId;
@@ -46,16 +90,24 @@ public class NoteData{
         this.userId = userId;
     }
 
-    public NoteData() {
+    public String getNoteId() { return noteId; }
+
+    public void setNoteId(String noteId) { this.noteId = noteId; }
+
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public LatLng getLatLng() {
-
-        return latLng;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
-    public void setLatLng(LatLng latLng) {
-        this.latLng = latLng;
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public String getNote_name() {
@@ -81,13 +133,19 @@ public class NoteData{
     public void setNote_timestamp(String note_timestamp) {
         this.note_timestamp = note_timestamp;
     }
+
+    public String getImagePath() { return imagePath; }
+
+    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
+
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("userId", userId);
-        result.put("note_title", note_name);
-        result.put("note_content", note_content);
-        result.put("note_timestamp", note_timestamp);
-        result.put("note_latlng", latLng);
+        result.put("title", note_name);
+        result.put("content", note_content);
+        result.put("timestamp", note_timestamp);
+        result.put("latitude", latitude);
+        result.put("longitude", longitude);
 
         return result;
     }

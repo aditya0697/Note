@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.adityapatel.note.NewNote">
     <!-- "Mark Favorite", should appear as action button if possible -->
     <item
-        android:id="@+id/action_favorite"
-        android:icon="@drawable/ic_menu"
-        android:title="menubar"
-        android:orderInCategory="300"
-        app:showAsAction="ifRoom"
-        android:actionLayout="@layout/activity_main"/>
+        android:id="@+id/action_cemara"
+        android:icon="@drawable/ic_camera"
+        android:title="@string/action_camera"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:actionLayout="@layout/activity_new_note"/>
 
 
 

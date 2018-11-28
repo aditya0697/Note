@@ -5,13 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".New_Note">
+    tools:context=".NewNote">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:background="#ffffff"
+        android:id="@+id/note_background"
         android:orientation="vertical">
 
 
@@ -20,16 +22,18 @@
         android:layout_width="match_parent"
         android:layout_height="450dp"
         android:layout_margin="20dp"
-        android:background="@color/noteCadrView"
+        android:background="#006e2d2a"
         android:clipToPadding="false"
         app:cardCornerRadius="15dp"
-        app:cardBackgroundColor="@color/noteCadrView"
+        app:cardBackgroundColor="#006e2d2a"
         android:outlineAmbientShadowColor="@color/newNoteAmbientShadowColor"
         android:outlineSpotShadowColor="@color/newNoteSpotShadowColor">
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#006e2d2a"
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputEditText

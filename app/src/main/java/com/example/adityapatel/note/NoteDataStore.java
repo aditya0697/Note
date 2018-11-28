@@ -14,12 +14,14 @@ public interface NoteDataStore {
     void setUser(FirebaseUser user);
     void addNote(NoteData noteData);
 
-    void updateNote(int oldNoteToBeUpdated, NoteData newNote);
+    void updateNote(int oldNoteToBeUpdated, NoteData newNote, boolean imageFlag);
 
     void deleteNote(int noteToBeDeleted);
     void setNoteList(List<NoteData> noteList);
     List<NoteData> getNotes();
 
     <T> void registerSubject(Consumer<T> consumer);
+    void load_notes();
+    void clear();
 
 }

@@ -10,11 +10,14 @@
     <string name="permission_rationale">Location permission is needed for core functionality</string>
     <string name="permission_denied_explanation">Permission was denied, but is needed for core
         functionality.</string>
+
     <string name="settings">Settings</string>
     <string name="ok">OK</string>
     <string name="request_location_updates">Request location updates</string>
     <string name="remove_location_updates">Remove location updates</string>
-<<<<<<< HEAD
+
+    <string name="APIKey">AIzaSyC7_Q7fRextp15Huf297gHcTYXIejundPQ</string>
+
     <string name="loading">Loading...</string>
     <string name="navigation_drawer_open">Open Navigation drawer</string>
     <string name="navigation_drawer_close">Close Navigation drawer</string>
@@ -22,10 +25,10 @@
     <string name="action_settings">Settings</string>
     <string name="nav_header_subtitle">Android Studioeee</string>
     <string name="nav_header_desc">Setting</string>
-=======
+
     <string name="email_hint">Enter your Email</string>
     <string name="password_hint">Password</string>
     <string name="loginBtnText">Sign In!</string>
     <string name="signUpBtnText">New User? Sign Up!</string>
->>>>>>> f6a82e4013fdb2fbe1f55868640e32cadf2d37e0
+    <string name="action_camera">camera</string>
 </resources>

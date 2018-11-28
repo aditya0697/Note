@@ -1,44 +1,28 @@
 package com.example.adityapatel.note;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
     private Context mcontext;
-   // private final NoteDataStore dataStore = NoteDataStoreImpl.sharedInstance();
+    private final NoteDataStore dataStore = NoteDataStoreImpl.sharedInstance();
     // private static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     // private static DatabaseReference mDatabase_get = FirebaseDatabase.getInstance().getReference().child("user-notes").child(user.getUid()) ;
    // private ProgressBar mProgressBar;
@@ -63,7 +47,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 int position = holder.getAdapterPosition();
                 /*String noteAtPostionTitle = dataStore.getNotes(mcontext).get(position).getNote_name();
                 String noteAtPositionContent = dataStore.getNotes(mcontext).get(position).getNote_content();*/
-                Intent intent = new Intent(mcontext, Edit_note.class);
+                Intent intent = new Intent(mcontext, EditNote.class);
                 intent.putExtra("position", position);
                 mcontext.startActivity(intent);
             }
@@ -87,7 +71,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         .setMessage("Are you sure you want to delete this entry?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                //dataStore.deleteNote(ii);
+                                dataStore.deleteNote(ii);
                                 notifyDataSetChanged();
                                 Toast.makeText(mcontext,"Item was deleted",Toast.LENGTH_SHORT).show();
                                 //handle menu1 click
@@ -111,13 +95,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     void addNotes(List<NoteData> list) {
-        int currentSize = noteList.size();
-        noteList.clear();
-        notifyItemRangeRemoved(0, currentSize);
         noteList.addAll(list);
-        notifyItemRangeInserted(0, list.size());
+        //notifyItemRangeInserted(0, list.size());
+        //notifyDataSetChanged();
     }
-
+    public void clear() {
+        final int size = noteList.size();
+        noteList.clear();
+        notifyItemRangeRemoved(0, size);
+        notifyDataSetChanged();
+    }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
@@ -126,6 +113,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             //dataStore.storeNotes(mcontext);
             holder.note_Name.setText(noteList.get(position).getNote_name());
             holder.note_Text.setText(noteList.get(position).getNote_content());
+            holder.note_Date.setText(noteList.get(position).getNote_timestamp());
         } catch (NullPointerException e) {
             Log.d("nullpointer", e.getMessage());
         }

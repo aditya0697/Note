@@ -7,4 +7,6 @@
         android:orderInCategory="100"
         android:title="@string/map"
         app:showAsAction="never" />
+
+
 </menu>
