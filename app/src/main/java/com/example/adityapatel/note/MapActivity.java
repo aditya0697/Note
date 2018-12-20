@@ -30,12 +30,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private NoteDataStore dataStore;
     GoogleMap mGoogleMap;
-<<<<<<< HEAD
+
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     List<NoteData> noteList = new ArrayList<>();
     private List<Marker> markers = new ArrayList<>();
-=======
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
     private static final float DEFAUL_ZOOM = 10f;
 
     @Override
@@ -59,17 +57,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
        // showMarkers(dataStore.getNotes());
     }
 
-<<<<<<< HEAD
     private void showMarkers(List<NoteData> noteList) {
-=======
-    private void showMarkers() {
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         double latitude = 0;
         double longitude = 0;
 
         String titleNote;
-
-<<<<<<< HEAD
         for (int i = 0; i < noteList.size(); i++) {
             titleNote = noteList.get(i).getNote_name();
             latitude = noteList.get(i).getLatitude();
@@ -93,39 +85,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                markers.add(marker);
             }
 
-=======
-        for (int i = 0; i < dataStore.getNotes().size(); i++) {
-            titleNote = dataStore.getNotes().get(i).getNote_name();
-            latitude = dataStore.getNotes().get(i).getLatitude();
-            longitude = dataStore.getNotes().get(i).getLongitude();
-            LatLng latLng = new LatLng(latitude,longitude);
-
-            mGoogleMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title(titleNote)
-                    .snippet(dataStore.getNotes().get(i).getNote_content())
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_note_marker)));
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         }
         if(noteList.size() == 0){
             LatLng denaliNationPark = new LatLng(63.129887, -151.197418);
             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(denaliNationPark, DEFAUL_ZOOM));
         }else {
-<<<<<<< HEAD
             int last = noteList.size() - 1;
             latitude = noteList.get(last).getLatitude();
             longitude = noteList.get(last).getLongitude();
-=======
-            int last = dataStore.getNotes().size() - 1;
-            latitude = dataStore.getNotes().get(last).getLatitude();
-            longitude = dataStore.getNotes().get(last).getLongitude();
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
+
             LatLng last_note_location = new LatLng(latitude,longitude);
             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_note_location, DEFAUL_ZOOM));
-
-
-<<<<<<< HEAD
         }
     }
 
@@ -160,8 +130,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             if(dataStore.getNotes().get(i).getNoteId().equals(noteId)){
                 return i;
             }
-=======
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         }
         return -1;
     }
