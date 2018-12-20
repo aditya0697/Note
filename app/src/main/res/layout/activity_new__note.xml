@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/new_note"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewNote">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+
+    <android.support.design.card.MaterialCardView
+        android:id="@+id/cd1"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_margin="20dp"
+        android:background="@color/noteCadrView"
+        android:clipToPadding="false"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/noteCadrView"
+        android:outlineAmbientShadowColor="@color/newNoteAmbientShadowColor"
+        android:outlineSpotShadowColor="@color/newNoteSpotShadowColor">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+
+
+                android:textColorHint="#002d43"
+                android:background="@color/noteTitleBackground"
+                android:hint="  Title"
+                android:textSize="20sp"
+                android:textStyle="normal" />
+
+
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/note"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="start"
+                android:layout_margin="10dp"
+                android:textColorHint="#37474f"
+                android:textEditPasteWindowLayout="@style/Theme.AppCompat.Light.DarkActionBar"
+                android:background="@color/noteContentBackground"
+                android:hint="Type Anything..."
+                android:padding="7dp" />
+
+
+        </LinearLayout>
+    </android.support.design.card.MaterialCardView>
+
+
+
+    </LinearLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>

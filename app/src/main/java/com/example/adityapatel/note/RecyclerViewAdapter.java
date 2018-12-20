@@ -22,7 +22,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     //private static final String TAG = "RecyclerViewAdapter";
     private Context mcontext;
-   // private final NoteDataStore dataStore = NoteDataStoreImpl.sharedInstance();
+    private final NoteDataStore dataStore = NoteDataStoreImpl.sharedInstance();
     // private static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     // private static DatabaseReference mDatabase_get = FirebaseDatabase.getInstance().getReference().child("user-notes").child(user.getUid()) ;
    // private ProgressBar mProgressBar;
@@ -70,8 +70,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         .setMessage("Are you sure you want to delete this entry?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+<<<<<<< HEAD
                                 //dataStore.deleteNote(ii);
                                 ((MainActivity) mcontext).deleteNote(ii);
+=======
+                                dataStore.deleteNote(ii);
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
                                 notifyDataSetChanged();
                                 Toast.makeText(mcontext,"Item was deleted",Toast.LENGTH_SHORT).show();
                                 //handle menu1 click
@@ -95,6 +99,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     void addNotes(List<NoteData> list) {
+<<<<<<< HEAD
         noteList = list;
         //notifyItemRangeInserted(0, list.size());
         notifyDataSetChanged();
@@ -104,6 +109,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //noteList.clear();
         //notifyItemRangeRemoved(0, size);
        // notifyDataSetChanged();
+=======
+        noteList.addAll(list);
+        //notifyItemRangeInserted(0, list.size());
+        //notifyDataSetChanged();
+    }
+    public void clear() {
+        final int size = noteList.size();
+        noteList.clear();
+        notifyItemRangeRemoved(0, size);
+        notifyDataSetChanged();
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
     }
 
     @Override

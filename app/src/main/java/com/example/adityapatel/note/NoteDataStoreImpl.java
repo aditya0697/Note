@@ -1,5 +1,6 @@
 package com.example.adityapatel.note;
 
+<<<<<<< HEAD
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
@@ -14,6 +15,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+=======
+import android.support.annotation.NonNull;
+
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -22,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+<<<<<<< HEAD
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -34,22 +40,33 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
+=======
+
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+<<<<<<< HEAD
 
 import static com.example.adityapatel.note.NewNote.TAG;
+=======
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 
 public class NoteDataStoreImpl implements NoteDataStore {
 
     private static NoteDataStoreImpl sInstance;
+<<<<<<< HEAD
     private static List<NoteData> dataList;
     private static List<NoteData> allUserNoteList;
+=======
+    private  static List<NoteData> dataList;
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
     private static FirebaseAuth mAuth;
     private static FirebaseUser user;
     private static DatabaseReference mDatabase_post;
     private static DatabaseReference mDatabase_get;
+<<<<<<< HEAD
     private static DatabaseReference mAllUserDatabaseReference;
 
     private StorageReference mStorageRef;
@@ -63,12 +80,28 @@ public class NoteDataStoreImpl implements NoteDataStore {
         if (sInstance == null) {
 
             sInstance = new NoteDataStoreImpl(context);
+=======
+
+
+    synchronized public static NoteDataStore sharedInstance()  {
+
+        if (sInstance == null) {
+
+            sInstance = new NoteDataStoreImpl();
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
             mAuth = FirebaseAuth.getInstance();
         }
 
         return sInstance;
     }
+    public void clear(){
+        mDatabase_post = null;
+        mDatabase_get = null;
+        user = null;
+        sInstance = null;
+    }
 
+<<<<<<< HEAD
     public void clear() {
         mDatabase_post = null;
         mDatabase_get = null;
@@ -125,6 +158,77 @@ public class NoteDataStoreImpl implements NoteDataStore {
                     downloadImage(note);
                 } catch (IOException e) {
                     e.printStackTrace();
+=======
+    private void init(){
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase_post = FirebaseDatabase.getInstance().getReference();
+        mDatabase_get = FirebaseDatabase.getInstance().getReference().child("user-notes").child(user.getUid()) ;
+    }
+
+    private NoteDataStoreImpl() {
+        init();
+        dataList = new ArrayList<>();
+        //activity = (Activity)context;
+        mDatabase_get.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                /*for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
+                    String key = noteDataSnapshot.getKey();
+                    List<String> stringList = new ArrayList<>();
+                    String noteData = noteDataSnapshot.getValue().toString();
+                    Map<String,String> map=(Map<String,String>)noteDataSnapshot.getValue();
+                    String note_name = map.get("note_name");
+                    String note_content = map.get("note_content");
+                    String note_timestamp = map.get("note_timestamp");
+                    String userId = map.get("userId");
+                    Double latitude = Double.valueOf(map.get("latitude"));
+                    Double longitude = Double.valueOf(map.get("longitude"));
+                    //dataList.add( noteDataSnapshot.getValue(NoteData.class));
+                    NoteData note = new NoteData(userId,note_name,note_content, note_timestamp, latitude, longitude);
+                    dataList.add(note);
+                    stringList.add(noteData);
+                }*/
+
+                dataList.clear();
+                for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
+                    NoteData note= noteDataSnapshot.getValue(NoteData.class);
+                            dataList.add(note);
+                }
+
+                for (Consumer subject : consumers) {
+                    subject.consume(dataList);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+  /* public void loadNotes(){
+        mDatabase_get.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataList.clear();
+                for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
+                    String key = noteDataSnapshot.getKey();
+                    List<String> stringList = new ArrayList<>();
+                    String noteData = noteDataSnapshot.getValue().toString();
+                    Map<String,String> map=(Map<String,String>)noteDataSnapshot.getValue();
+                    String note_name = map.get("note_name");
+                    String note_content = map.get("note_content");
+                    String note_timestamp = map.get("note_timestamp");
+                    String userId = map.get("userId");
+                    Double latitude = Double.valueOf(map.get("latitude"));
+                    Double longitude = Double.valueOf(map.get("longitude"));
+                    //dataList.add( noteDataSnapshot.getValue(NoteData.class));
+                    NoteData note = new NoteData(userId,note_name,note_content, note_timestamp, latitude, longitude);
+                    dataList.add(note);
+                    stringList.add(noteData);
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
                 }
                 for (Consumer subject : consumers) {
                     subject.consume(dataList);
@@ -142,6 +246,7 @@ public class NoteDataStoreImpl implements NoteDataStore {
                 Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
 
             }
+<<<<<<< HEAD
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -151,6 +256,11 @@ public class NoteDataStoreImpl implements NoteDataStore {
 
         mDatabase_get.addChildEventListener(childEventListener);
     }
+=======
+        });
+
+    }*/
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 
 
     private final List<Consumer> consumers = new ArrayList<>();
@@ -166,6 +276,11 @@ public class NoteDataStoreImpl implements NoteDataStore {
     public void logoutUser() {
         mAuth.signOut();
         dataList.clear();
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
     }
 
     @Override
@@ -179,6 +294,7 @@ public class NoteDataStoreImpl implements NoteDataStore {
 
     @Override
     public void addNote(NoteData noteData) {
+<<<<<<< HEAD
         if (noteData.getImageIds().size() == 0) {
             String key = mDatabase_post.child("inotes").push().getKey();
             noteData.setNoteId(key);
@@ -206,11 +322,23 @@ public class NoteDataStoreImpl implements NoteDataStore {
             mDatabase_post.updateChildren(childUpdates);
             //noteData.setImagePaths(imagepaths);
             // dataList.add(noteData);
+=======
+        String key = mDatabase_post.child("notes").push().getKey();
+        noteData.setNoteId(key);
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/notes/" + key, noteData);
+        childUpdates.put("/user-notes/" + noteData.getUserId() + "/" + key, noteData);
+        mDatabase_post.updateChildren(childUpdates);
+        dataList.add(noteData);
+        for (Consumer subject : consumers) {
+            subject.consume(dataList);
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         }
     }
 
 
     @Override
+<<<<<<< HEAD
     public void updateNote(int oldNoteToBeUpdated, NoteData noteData, boolean imageFlag) {
         if (imageFlag) {
             String key = noteData.getNoteId();
@@ -229,6 +357,15 @@ public class NoteDataStoreImpl implements NoteDataStore {
         mDatabase_post.updateChildren(childUpdates);*/
         dataList.remove(oldNoteToBeUpdated);
         dataList.add(oldNoteToBeUpdated, noteData);
+=======
+    public void updateNote(int oldNoteToBeUpdated, NoteData noteData) {
+        mDatabase_post = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/notes/" + noteData.getNoteId(), noteData);
+        childUpdates.put("/user-notes/" + noteData.getUserId() + "/" + noteData.getNoteId(), noteData);
+        mDatabase_post.updateChildren(childUpdates);
+        dataList.add(noteData);
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         for (Consumer subject : consumers) {
             subject.consume(dataList);
         }
@@ -237,6 +374,7 @@ public class NoteDataStoreImpl implements NoteDataStore {
     @Override
     public void deleteNote(int index) {
         NoteData noteData = dataList.get(index);
+<<<<<<< HEAD
         mDatabase_post = FirebaseDatabase.getInstance().getReference();
         mDatabase_post.child("inotes").child(noteData.getNoteId()).setValue(null);
         mDatabase_post.child("iuser-notes").child(noteData.getUserId()).child(noteData.getNoteId()).setValue(null);
@@ -244,6 +382,12 @@ public class NoteDataStoreImpl implements NoteDataStore {
         childUpdates.put("/inotes/" + noteData.getNoteId(), null);
         childUpdates.put("/iuser-notes/" + noteData.getUserId() + "/" + noteData.getNoteId(), null);
         mDatabase_post.updateChildren(childUpdates);*/
+=======
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/notes/" + noteData.getNoteId(), null);
+        childUpdates.put("/user-notes/" + noteData.getUserId() + "/" + noteData.getNoteId(), null);
+        mDatabase_post.updateChildren(childUpdates);
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         dataList.remove(index);
         for (Consumer subject : consumers) {
             subject.consume(dataList);
@@ -252,7 +396,11 @@ public class NoteDataStoreImpl implements NoteDataStore {
 
     @Override
     public List<NoteData> getNotes() {
+<<<<<<< HEAD
         return dataList;
+=======
+            return dataList;
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
     }
 
     @Override
@@ -384,6 +532,7 @@ public class NoteDataStoreImpl implements NoteDataStore {
         }
     }
 
+<<<<<<< HEAD
         private void downloadImage ( final NoteData noteData) throws IOException {
             if (noteData.getImageIds() == null) {
 
@@ -426,6 +575,13 @@ public class NoteDataStoreImpl implements NoteDataStore {
 
             return -1;
         }
+=======
+    @Override
+    public void load_notes() {
+
+    }
+
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 }
 
 

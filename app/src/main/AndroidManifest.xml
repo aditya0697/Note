@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.adityapatel.note">
+<<<<<<< HEAD
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -10,6 +11,12 @@
 
     <uses-feature
         android:name="android.hardware.camera"
+=======
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-feature android:name="android.hardware.camera"
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         android:required="true" />
 
     <application
@@ -42,6 +49,7 @@
         </activity>
         <activity
             android:name=".NewNote"
+<<<<<<< HEAD
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".EditNote"
@@ -50,6 +58,14 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".DisplayImageActivity" />
 
+=======
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".EditNote"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".MapActivity"/>
+        <activity android:name=".RegisterActivity"/>
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"></meta-data>
@@ -60,5 +76,9 @@
             android:name="com.google.android.actions"
             android:resource="@xml/file_paths" />
     </application>
+<<<<<<< HEAD
+=======
+
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 
 </manifest>

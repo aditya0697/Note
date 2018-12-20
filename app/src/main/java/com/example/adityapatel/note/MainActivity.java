@@ -15,7 +15,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+<<<<<<< HEAD
 import android.widget.TextView;
+=======
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,7 +47,11 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+<<<<<<< HEAD
         dataStore = NoteDataStoreImpl.sharedInstance(getApplicationContext());
+=======
+        dataStore = NoteDataStoreImpl.sharedInstance();
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         dataStore.load_notes();
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
@@ -69,7 +76,10 @@ public class MainActivity extends AppCompatActivity implements
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         dataStore.registerSubject(this);
+<<<<<<< HEAD
 
+=======
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         initRecyclerView();
 
     }
@@ -96,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements
     public void consume(List<NoteData> objects) {
         adapter.clear();
         adapter.addNotes(objects);
+
     }
 
     @Override
@@ -150,7 +161,13 @@ public class MainActivity extends AppCompatActivity implements
             Intent i = new Intent(this, MapActivity.class);
             startActivity(i);
 
+<<<<<<< HEAD
         }else if (id == R.id.nav_signout) {
+=======
+        }else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_signout) {
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
             dataStore.logoutUser();
             dataStore.clear();
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
@@ -167,7 +184,10 @@ public class MainActivity extends AppCompatActivity implements
             return true;
         }
 
+<<<<<<< HEAD
         public void deleteNote(int postion){
             dataStore.deleteNote(postion);
         }
+=======
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 }

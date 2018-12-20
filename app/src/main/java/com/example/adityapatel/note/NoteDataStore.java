@@ -21,9 +21,13 @@ public interface NoteDataStore {
     List<NoteData> getNotes();
 
     <T> void registerSubject(Consumer<T> consumer);
+<<<<<<< HEAD
     <T> void registerAllUserNoteSubject(AllUserNoteConsumer<T> allUserNoteConsumer);
     void load_notes();
     void loadAllUserNotes();
+=======
+    void load_notes();
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
     void clear();
 
 }

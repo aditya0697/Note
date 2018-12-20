@@ -30,7 +30,10 @@ dependencies {
     //implementation 'com.google.android.gms:play-services-location:16.0.1'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
+<<<<<<< HEAD
     implementation 'com.google.firebase:firebase-storage:16.0.4'
+=======
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -38,7 +41,12 @@ dependencies {
 
 
     implementation 'com.google.firebase:firebase-database:16.0.1'
+<<<<<<< HEAD
     implementation 'com.google.firebase:firebase-core:16.0.4'
+=======
+    implementation 'com.google.firebase:firebase-core:16.0.3'
+
+>>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 
     implementation 'com.squareup.picasso:picasso:2.5.2'
 }
