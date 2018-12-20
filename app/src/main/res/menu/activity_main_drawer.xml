@@ -12,10 +12,10 @@
             android:id="@+id/nav_map"
             android:icon="@drawable/placeholder"
             android:title="Map" />
-        <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/share"
-            android:title="Share" />
+        <!--<item-->
+            <!--android:id="@+id/nav_share"-->
+            <!--android:icon="@drawable/share"-->
+            <!--android:title="Share" />-->
 
     </group>
 

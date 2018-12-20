@@ -1,14 +1,17 @@
 package com.example.adityapatel.note;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ImageStoreStructure {
     int id;
     String noteID;
-    String imagePath;
+    List<String> imagePaths = new ArrayList<>();
 
-    public ImageStoreStructure(int id, String noteID, String imagePath) {
+    public ImageStoreStructure(int id, String noteID, String imagePaths) {
         this.id = id;
         this.noteID = noteID;
-        this.imagePath = imagePath;
+        this.imagePaths.add(imagePaths);
     }
 
     public int getId() {
@@ -27,11 +30,11 @@ public class ImageStoreStructure {
         this.noteID = noteID;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public List<String> getImagePaths() {
+        return imagePaths;
     }
 
     public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+        this.imagePaths.add(imagePath);
     }
 }

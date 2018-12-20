@@ -20,18 +20,18 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private static final String TAG = "RecyclerViewAdapter";
+    //private static final String TAG = "RecyclerViewAdapter";
     private Context mcontext;
-    private final NoteDataStore dataStore = NoteDataStoreImpl.sharedInstance();
+   // private final NoteDataStore dataStore = NoteDataStoreImpl.sharedInstance();
     // private static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     // private static DatabaseReference mDatabase_get = FirebaseDatabase.getInstance().getReference().child("user-notes").child(user.getUid()) ;
    // private ProgressBar mProgressBar;
 
-    private final List<NoteData> noteList;
+    private List<NoteData> noteList;
 
-    public RecyclerViewAdapter(Context context) {
-        noteList = new ArrayList<>();
-        mcontext = context;
+    public RecyclerViewAdapter(List<NoteData> noteList, Context mcontext) {
+        this.noteList = noteList;
+        this.mcontext = mcontext;
     }
 
     @Override
@@ -39,7 +39,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Log.d("recycle", "in recycleview");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_listitem, parent, false);
         final ViewHolder holder = new ViewHolder(view);
-
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +70,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         .setMessage("Are you sure you want to delete this entry?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                dataStore.deleteNote(ii);
+                                //dataStore.deleteNote(ii);
+                                ((MainActivity) mcontext).deleteNote(ii);
                                 notifyDataSetChanged();
                                 Toast.makeText(mcontext,"Item was deleted",Toast.LENGTH_SHORT).show();
                                 //handle menu1 click
@@ -95,15 +95,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     void addNotes(List<NoteData> list) {
-        noteList.addAll(list);
+        noteList = list;
         //notifyItemRangeInserted(0, list.size());
-        //notifyDataSetChanged();
+        notifyDataSetChanged();
     }
     public void clear() {
-        final int size = noteList.size();
-        noteList.clear();
-        notifyItemRangeRemoved(0, size);
-        notifyDataSetChanged();
+        //final int size = noteList.size();
+        //noteList.clear();
+        //notifyItemRangeRemoved(0, size);
+       // notifyDataSetChanged();
     }
 
     @Override
@@ -141,7 +141,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public int getItemCount() {
         return noteList.size();
        // Log.d(TAG, Double.toString(dataStore.getNotes().get(0).getLatitude()));
-
         /*Log.d(TAG, "getItemCount: " + dataStore.getNotes().size());
         int n = dataStore.getNotes().size();
         return dataStore.getNotes().size();*/

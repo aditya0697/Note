@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:srcCompat="@tools:sample/avatars"
-        android:padding="10dp"
-        android:layout_margin="15dp"
+        android:padding="15dp"
+        android:layout_margin="10dp"
         tools:ignore="MissingConstraints" />
 </android.support.constraint.ConstraintLayout>

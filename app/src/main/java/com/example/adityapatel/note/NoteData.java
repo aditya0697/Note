@@ -2,11 +2,15 @@ package com.example.adityapatel.note;
 
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class NoteData{
+public class NoteData {
     private String userId;
     private String noteId;
     private String note_name;
@@ -14,20 +18,25 @@ public class NoteData{
     private String note_timestamp;
     private Double latitude;
     private Double longitude;
-    private String imageId;
+    private List<String> imageIds = new ArrayList<>();
     private Bitmap image;
-    private String imagePath;
+    private List<String> imagePaths = new ArrayList<>();
 
-    public NoteData(String userId,String note_name, String note_content, String note_timestamp, Double latitude, Double longitude) {
+    public NoteData(String userId, String note_name, String note_content, String note_timestamp, Double latitude, Double longitude, String noteId, List<String> imagrIds, List<String> imagePaths) {
         this.userId = userId;
         this.note_name = note_name;
         this.note_content = note_content;
         this.note_timestamp = note_timestamp;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.imageIds = imagrIds;
+        this.imagePaths = imagePaths;
     }
 
-    public NoteData(String userId,String note_name, String note_content, String note_timestamp, Double latitude, Double longitude, String noteId) {
+    public NoteData() {
+    }
+
+    public NoteData(String userId, String note_name, String note_content, String note_timestamp, Double latitude, Double longitude, String noteId) {
         this.userId = userId;
         this.note_name = note_name;
         this.note_content = note_content;
@@ -45,7 +54,8 @@ public class NoteData{
         this.latitude = latitude;
         this.longitude = longitude;
         this.noteId = noteId;
-        this.imageId = imageId;
+        this.imageIds.add(imageId);
+
     }
     public NoteData(String userId,String note_name, String note_content, String note_timestamp, Double latitude, Double longitude, String noteId, String imageId, String imagePath){
         this.userId = userId;
@@ -55,8 +65,8 @@ public class NoteData{
         this.latitude = latitude;
         this.longitude = longitude;
         this.noteId = noteId;
-        this.imageId = imageId;
-        this.imagePath = imagePath;
+        this.imageIds.add(imageId);
+        this.imagePaths.add(imagePath);
     }
 
 
@@ -71,12 +81,31 @@ public class NoteData{
         this.image = image;
     }
 
-    public NoteData() { }
+    public NoteData(String uid, String title, String body, String date, double latitude, double longitude, String noteId, List<String> imagePaths) {
+        this.userId = userId;
+        this.note_name = note_name;
+        this.note_content = note_content;
+        this.note_timestamp = note_timestamp;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.noteId = noteId;
+        for(int i=0; i<imagePaths.size();i++){
+            this.imagePaths.add(imagePaths.get(i));
+        }
+
+    }
 
 
-    public String getImageId() { return imageId; }
 
-    public void setImageId(String imageId) { this.imageId = imageId; }
+
+    public List<String> getImageIds() { return imageIds; }
+
+    public void setImageId(String imageId, int index) {
+        if(index < this.imageIds.size()){
+            this.imageIds.remove(index);
+            this.imageIds.add(index,imageId);
+        }
+       }
 
     public Bitmap getImage() { return image; }
 
@@ -134,9 +163,12 @@ public class NoteData{
         this.note_timestamp = note_timestamp;
     }
 
-    public String getImagePath() { return imagePath; }
+    public List<String> getImagePaths() { return imagePaths; }
 
-    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
+    public void setImagePath(String imagePath) { this.imagePaths.add(imagePath); }
+    public void setImagePaths( List<String> imagePaths ){
+        this.imagePaths = imagePaths;
+    }
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -146,8 +178,20 @@ public class NoteData{
         result.put("timestamp", note_timestamp);
         result.put("latitude", latitude);
         result.put("longitude", longitude);
+        result.put("imageIds",imageIds);
 
         return result;
     }
+
+    /**
+     * Describe the kinds of special objects contained in this Parcelable
+     * instance's marshaled representation. For example, if the object will
+     * include a file descriptor in the output of {@link #writeToParcel(Parcel, int)},
+     * the return value of this method must include the
+     * {@link #CONTENTS_FILE_DESCRIPTOR} bit.
+     *
+     * @return a bitmask indicating the set of special object types marshaled
+     * by this Parcelable object instance.
+     */
 
 }

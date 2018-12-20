@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements
     private static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
+    TextView userNameTextView;
 
     @Override
     protected void onResume() {
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dataStore = NoteDataStoreImpl.sharedInstance();
+        dataStore = NoteDataStoreImpl.sharedInstance(getApplicationContext());
         dataStore.load_notes();
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         dataStore.registerSubject(this);
+
         initRecyclerView();
 
     }
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements
     private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: init recyclerview 12222");
         recyclerView = findViewById(R.id.recyclerview);
-        adapter = new RecyclerViewAdapter(this);
+        adapter = new RecyclerViewAdapter(dataStore.getNotes(),this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -92,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements
     public void consume(List<NoteData> objects) {
         adapter.clear();
         adapter.addNotes(objects);
-
     }
 
     @Override
@@ -147,9 +150,7 @@ public class MainActivity extends AppCompatActivity implements
             Intent i = new Intent(this, MapActivity.class);
             startActivity(i);
 
-        }else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_signout) {
+        }else if (id == R.id.nav_signout) {
             dataStore.logoutUser();
             dataStore.clear();
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
@@ -166,4 +167,7 @@ public class MainActivity extends AppCompatActivity implements
             return true;
         }
 
+        public void deleteNote(int postion){
+            dataStore.deleteNote(postion);
+        }
 }

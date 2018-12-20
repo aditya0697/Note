@@ -9,14 +9,20 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +37,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -41,14 +48,15 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class EditNote extends AppCompatActivity  {
+public class EditNote extends AppCompatActivity implements Serializable {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     EditText edName;
     EditText edNote;
     private Bitmap imageBitmap;
-    private ImageView mbackground;
+    private LinearLayout mbackground;
     private NoteDataStore dataStore;
     private double latitude;
     private double longitude;
@@ -56,61 +64,99 @@ public class EditNote extends AppCompatActivity  {
     private String noteTitle;
     private String noteContent;
     private String date;
-    private String imageId;
-    private String imagePath;
+    private List<String> imageIds;
+    private String imageid;
+    private List<String> imagePaths = new ArrayList<>();
     private NoteData noteData;
     private boolean imageFlag = false;
     private FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
+    private boolean userNoteFalg = true;
+    private int imageCount = -1;
+    RecyclerView recyclerView;
+    ImageRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_note);
         Log.d("dd","in here create");
-        dataStore = NoteDataStoreImpl.sharedInstance();
+        dataStore = NoteDataStoreImpl.sharedInstance(getApplicationContext());
         edName = findViewById(R.id.name);
         edNote = findViewById(R.id.note);
-        mbackground = findViewById(R.id.note_image);
-        int position = getIntent().getIntExtra("position",-1);
-        noteData = dataStore.getNotes().get(position);
-        imageBitmap = noteData.getImage();
-        noteContent = noteData.getNote_content();
-        noteTitle = noteData.getNote_name();
-        latitude = dataStore.getNotes().get(position).getLatitude();
-        longitude = dataStore.getNotes().get(position).getLongitude();
-        noteId = dataStore.getNotes().get(position).getNoteId();
-        imageId = dataStore.getNotes().get(position).getImageId();
-        date = dataStore.getNotes().get(position).getNote_timestamp();
-        edName.setText(dataStore.getNotes().get(position).getNote_name());
-        edNote.setText(dataStore.getNotes().get(position).getNote_content());
-        if( imageId != null){
-            imagePath = dataStore.getNotes().get(position).getImagePath();
-            setBackground(dataStore.getNotes().get(position).getImagePath());
-        }
-        mbackground.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToDisplayImage();
-            }
-        });
+        mbackground = findViewById(R.id.note_background);
+        init();
 
     }
+    private void init(){
+        int position = getIntent().getIntExtra("position",-1);
+        if(position == -1){
+            userNoteFalg = false;
+            //noteData = (NoteData) getIntent().getParcelableExtra("NoteData");
+            noteTitle = getIntent().getStringExtra("Note_title");
+            noteContent = getIntent().getStringExtra("Notedata_content");
+            edName.setText(noteTitle);
+            edNote.setText(noteContent);
+            edName.setFocusable(false);
+            edName.setEnabled(false);
+            edName.setCursorVisible(false);
+            edName.setKeyListener(null);
+            edName.setBackgroundColor(Color.TRANSPARENT);
+            edNote.setFocusable(false);
+            edNote.setEnabled(false);
+            edNote.setCursorVisible(false);
+            edNote.setKeyListener(null);
 
+           // edNote.setBackgroundColor(Color.TRANSPARENT);
 
-    private void goToDisplayImage(){
+        }else {
+            noteData = dataStore.getNotes().get(position);
+            imageBitmap = noteData.getImage();
+            noteContent = noteData.getNote_content();
+            noteTitle = noteData.getNote_name();
+            latitude = noteData.getLatitude();
+            longitude = noteData.getLongitude();
+            noteId = noteData.getNoteId();
+            imageIds = noteData.getImageIds();
+            imageCount = imageIds.size() -1;
+            date = noteData.getNote_timestamp();
+            edName.setText(noteData.getNote_name());
+            edNote.setText(noteData.getNote_content());
+            if( imageIds != null){
+                for(int i=0; i< noteData.getImageIds().size();i++){
+                    ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                    File directory = cw.getDir(noteData.getNoteId(), Context.MODE_PRIVATE);
+                    File myImageFile = new File(directory, noteData.getImageIds().get(i)+".jpg");
+                    if(myImageFile.exists()){
+                        String path = myImageFile.getAbsolutePath();
+                        imagePaths.add(path);
+                    }else{
+                        String path = noteData.getImagePaths().get(i);
+                        imagePaths.add(path);
+                    }
 
-        if( imageId != null){
-            imageBitmap =  BitmapFactory.decodeFile(imagePath);
-            Intent i = new Intent(this, DisplayImageActivity.class);
-           // i.putExtra("ImagePath", imagePath);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-            i.putExtra("picture", byteArray);
-            startActivity(i);
+                }
+
+                //Picasso.with(this).load(myImageFile).into(ivImage);
+                initRecyclerView();
+            }
+            else if( noteData.getImagePaths() != null){
+                imagePaths = noteData.getImagePaths();
+                initRecyclerView();
+            }
+            initRecyclerView();
         }
 
+
+    }
+    private void initRecyclerView() {
+
+        recyclerView = findViewById(R.id.note_images_recycler_view);
+        LinearLayoutManager horizontalLayoutManager
+                = new LinearLayoutManager(EditNote.this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(horizontalLayoutManager);
+        adapter = new ImageRecyclerViewAdapter(imagePaths,getApplicationContext());
+        recyclerView.setAdapter(adapter);
+        adapter.addImagePath(null);
     }
 
     @SuppressLint("NewApi")
@@ -125,7 +171,7 @@ public class EditNote extends AppCompatActivity  {
 
         //ssb.setSpan(new ImageSpan(getApplicationContext(),imageBitmap, ImageSpan.ALIGN_BASELINE), startIndex+1, startIndex+2, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         //edNote.setText(ssb, TextView.BufferType.SPANNABLE);
-        mbackground.setImageBitmap(imageBitmap);
+        //mbackground.setBackground(imageBitmap);
         //edName.setAlpha(0.75f);
         //edNote.setAlpha(0.75f);
     }
@@ -133,14 +179,21 @@ public class EditNote extends AppCompatActivity  {
 
     @Override
     public void onBackPressed() {
-        String title = edName.getText().toString();
-        String body = edNote.getText().toString();
-        int position = getIntent().getIntExtra("position",-1);
-        if(!noteTitle.equals(title) || !noteContent.equals(body) || imageFlag){
-            NoteData newNote = new NoteData(currentUser.getUid(), title, body, date, latitude, longitude, noteId, imageId, imagePath);
-            dataStore.updateNote(position, newNote, imageFlag);
+        if(userNoteFalg == true) {
+            String title = edName.getText().toString();
+            String body = edNote.getText().toString();
+            int position = getIntent().getIntExtra("position", -1);
+            //List<String> imagrIds = new ArrayList<String>(imageIds);
+            if (noteTitle == null || noteContent == null) {
+                dataStore.deleteNote(position);
+            } else {
+                if (!noteTitle.equals(title) || !noteContent.equals(body) || imageFlag) {
+                    NoteData newNote = new NoteData(currentUser.getUid(), title, body, date, latitude, longitude, noteId, imageIds, imagePaths);
+                    newNote.setNoteId(noteData.getNoteId());
+                    dataStore.updateNote(position, newNote, imageFlag);
+                }
+            }
         }
-
        // dataStore.storeNotes(getApplicationContext());
         finish();
 
@@ -155,6 +208,7 @@ public class EditNote extends AppCompatActivity  {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -165,7 +219,7 @@ public class EditNote extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    private void dispatchTakePictureIntent() {
+    /*private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -198,12 +252,14 @@ public class EditNote extends AppCompatActivity  {
 
     private void storeImage(Bitmap imageBitmap){
         try {
-            final File localFile = File.createTempFile(noteData.getImageId(), "jpg");
+
+            final File localFile = File.createTempFile(Integer.toString(imageCount), "jpeg");
+            imageCount++;
             FileOutputStream fos = null;
             try {
                 fos = new FileOutputStream(localFile);
                 // Use the compress method on the BitMap object to write image to the OutputStream
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 25, fos);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -214,7 +270,7 @@ public class EditNote extends AppCompatActivity  {
                 }
             }
             noteData.setImagePath(localFile.getAbsolutePath());
-            imagePath = localFile.getAbsolutePath();
+            imagePaths.add(localFile.getAbsolutePath());
             imageFlag = true;
 
         } catch (IOException e) {
@@ -223,6 +279,75 @@ public class EditNote extends AppCompatActivity  {
 
     }
 
+*/
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    private void dispatchTakePictureIntent() {
+        /*Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }*/
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                imagePaths.add(photoFile.getAbsolutePath());
+                imageCount++;
+                imageid = "__"+Integer.toString(imageCount);
+                imageIds.add(imageid);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+
+
+            }
+        }
+
+    }
+    @SuppressLint({"NewApi", "ResourceAsColor"})
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(resultCode != RESULT_CANCELED){
+            adapter.addImagePath(imagePaths.get(imageCount));
+            imageFlag = true;
+
+        }
+    }
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        final File directory = cw.getDir(noteData.getNoteId(), Context.MODE_PRIVATE);
+        final File myImageFile = new File(directory, noteData.getImageIds().get(imageCount)+".jpg"); // Create image file
+        if(myImageFile.exists()){
+            String path = Long.toString(myImageFile.getTotalSpace());
+        }
+        //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "__"+Integer.toString(imageCount)+noteData.getNoteId();
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        //imagePaths.add(image.getAbsolutePath());
+        return image;
+    }
 
 
 

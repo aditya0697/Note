@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
-public class DisplayImageActivity extends AppCompatActivity {
+public class  DisplayImageActivity extends AppCompatActivity {
     ImageView imageView;
 
     @Override
@@ -17,9 +17,9 @@ public class DisplayImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_image);
         imageView = findViewById(R.id.imageView2);
         Bundle extras = getIntent().getExtras();
-        byte[] byteArray = extras.getByteArray("picture");
+        String imagePath = extras.getString("picture");
 
-        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        Bitmap bitmap =  BitmapFactory.decodeFile(imagePath);
         imageView.setImageBitmap(bitmap);
 
     }

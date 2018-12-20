@@ -1,77 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/new_note"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".NewNote">
-
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/note_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
         android:background="#ffffff"
-        android:id="@+id/note_background"
-        android:orientation="vertical">
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints">
 
 
-    <android.support.design.card.MaterialCardView
-        android:id="@+id/cd1"
-        android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_margin="20dp"
-        android:background="#006e2d2a"
-        android:clipToPadding="false"
-        app:cardCornerRadius="15dp"
-        app:cardBackgroundColor="#006e2d2a"
-        android:outlineAmbientShadowColor="@color/newNoteAmbientShadowColor"
-        android:outlineSpotShadowColor="@color/newNoteSpotShadowColor">
-
-        <LinearLayout
-
+        <android.support.design.card.MaterialCardView
+            android:id="@+id/cd1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="350dp"
+            android:layout_margin="20dp"
             android:background="#006e2d2a"
-            android:orientation="vertical">
+            android:clipToPadding="false"
+            android:outlineAmbientShadowColor="@color/newNoteAmbientShadowColor"
+            android:outlineSpotShadowColor="@color/newNoteSpotShadowColor"
+            app:cardBackgroundColor="#006e2d2a"
+            app:cardCornerRadius="15dp">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="10dp"
+            <LinearLayout
 
-
-                android:textColorHint="#002d43"
-                android:background="@color/noteTitleBackground"
-                android:hint="  Title"
-                android:textSize="20sp"
-                android:textStyle="normal" />
-
-
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/note"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:gravity="start"
-                android:layout_margin="10dp"
-                android:textColorHint="#37474f"
-                android:textEditPasteWindowLayout="@style/Theme.AppCompat.Light.DarkActionBar"
-                android:background="@color/noteContentBackground"
-                android:hint="Type Anything..."
-                android:padding="7dp" />
+                android:background="#006e2d2a"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
 
 
-        </LinearLayout>
-    </android.support.design.card.MaterialCardView>
+                    android:background="@color/noteTitleBackground"
+                    android:hint="  Title"
+                    android:textColorHint="#002d43"
+                    android:textSize="20sp"
+                    android:textStyle="normal" />
+
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/note"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    android:background="@color/noteContentBackground"
+                    android:gravity="start"
+                    android:hint="Type Anything..."
+                    android:padding="7dp"
+                    android:textColorHint="#37474f"
+                    android:textEditPasteWindowLayout="@style/Theme.AppCompat.Light.DarkActionBar" />
+
+                <!--<ImageView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="60dp"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:id="@+id/note_image" />-->
+
+
+            </LinearLayout>
+        </android.support.design.card.MaterialCardView>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="1dp">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/note_images_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </RelativeLayout>
 
 
 
     </LinearLayout>
 
+    <!--<ImageView-->
+    <!--android:id="@+id/note_image"-->
+    <!--android:layout_width="100dp"-->
 
+    <!--android:layout_height="100dp"-->
+    <!--app:layout_constraintBottom_toBottomOf="@id/note_background"-->
+    <!--tools:layout_editor_absoluteX="16dp" />-->
 
 </android.support.constraint.ConstraintLayout>
