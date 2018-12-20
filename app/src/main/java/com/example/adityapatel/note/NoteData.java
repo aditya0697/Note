@@ -46,7 +46,6 @@ public class NoteData {
         this.noteId = noteId;
     }
 
-<<<<<<< HEAD
     public NoteData(String userId,String note_name, String note_content, String note_timestamp, Double latitude, Double longitude, String noteId, String imageId){
         this.userId = userId;
         this.note_name = note_name;
@@ -59,37 +58,16 @@ public class NoteData {
 
     }
     public NoteData(String userId,String note_name, String note_content, String note_timestamp, Double latitude, Double longitude, String noteId, String imageId, String imagePath){
-=======
-    private String note_name;
-    private String note_content;
-    private String note_timestamp;
-    private Double latitude;
-    private Double longitude;
-
-
-    public NoteData(String userId,String note_name, String note_content, String note_timestamp, Double latitude, Double longitude) {
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         this.userId = userId;
         this.note_name = note_name;
         this.note_content = note_content;
         this.note_timestamp = note_timestamp;
         this.latitude = latitude;
         this.longitude = longitude;
-<<<<<<< HEAD
         this.noteId = noteId;
         this.imageIds.add(imageId);
         this.imagePaths.add(imagePath);
-=======
-    }
-    public NoteData(String userId,String note_name, String note_content, String note_timestamp, Double latitude, Double longitude, String noteId) {
-        this.userId = userId;
-        this.note_name = note_name;
-        this.note_content = note_content;
-        this.note_timestamp = note_timestamp;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.noteId = noteId;
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
+    
     }
 
 
@@ -150,7 +128,6 @@ public class NoteData {
         return latitude;
     }
 
-<<<<<<< HEAD
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
@@ -159,20 +136,6 @@ public class NoteData {
         return longitude;
     }
 
-=======
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
@@ -201,16 +164,12 @@ public class NoteData {
         this.note_timestamp = note_timestamp;
     }
 
-<<<<<<< HEAD
     public List<String> getImagePaths() { return imagePaths; }
 
     public void setImagePath(String imagePath) { this.imagePaths.add(imagePath); }
     public void setImagePaths( List<String> imagePaths ){
         this.imagePaths = imagePaths;
     }
-
-=======
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("userId", userId);
@@ -219,10 +178,8 @@ public class NoteData {
         result.put("timestamp", note_timestamp);
         result.put("latitude", latitude);
         result.put("longitude", longitude);
-<<<<<<< HEAD
         result.put("imageIds",imageIds);
-=======
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
+
 
         return result;
     }
