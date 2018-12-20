@@ -1,6 +1,5 @@
 package com.example.adityapatel.note;
 
-<<<<<<< HEAD
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
@@ -15,10 +14,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-=======
-import android.support.annotation.NonNull;
-
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -27,7 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-<<<<<<< HEAD
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -40,33 +34,24 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
-=======
-
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-<<<<<<< HEAD
-
 import static com.example.adityapatel.note.NewNote.TAG;
-=======
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
+
+
+
 
 public class NoteDataStoreImpl implements NoteDataStore {
 
     private static NoteDataStoreImpl sInstance;
-<<<<<<< HEAD
     private static List<NoteData> dataList;
     private static List<NoteData> allUserNoteList;
-=======
-    private  static List<NoteData> dataList;
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
     private static FirebaseAuth mAuth;
     private static FirebaseUser user;
     private static DatabaseReference mDatabase_post;
     private static DatabaseReference mDatabase_get;
-<<<<<<< HEAD
     private static DatabaseReference mAllUserDatabaseReference;
 
     private StorageReference mStorageRef;
@@ -80,15 +65,6 @@ public class NoteDataStoreImpl implements NoteDataStore {
         if (sInstance == null) {
 
             sInstance = new NoteDataStoreImpl(context);
-=======
-
-
-    synchronized public static NoteDataStore sharedInstance()  {
-
-        if (sInstance == null) {
-
-            sInstance = new NoteDataStoreImpl();
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
             mAuth = FirebaseAuth.getInstance();
         }
 
@@ -100,8 +76,6 @@ public class NoteDataStoreImpl implements NoteDataStore {
         user = null;
         sInstance = null;
     }
-
-<<<<<<< HEAD
     public void clear() {
         mDatabase_post = null;
         mDatabase_get = null;
@@ -158,109 +132,6 @@ public class NoteDataStoreImpl implements NoteDataStore {
                     downloadImage(note);
                 } catch (IOException e) {
                     e.printStackTrace();
-=======
-    private void init(){
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        mDatabase_post = FirebaseDatabase.getInstance().getReference();
-        mDatabase_get = FirebaseDatabase.getInstance().getReference().child("user-notes").child(user.getUid()) ;
-    }
-
-    private NoteDataStoreImpl() {
-        init();
-        dataList = new ArrayList<>();
-        //activity = (Activity)context;
-        mDatabase_get.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                /*for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
-                    String key = noteDataSnapshot.getKey();
-                    List<String> stringList = new ArrayList<>();
-                    String noteData = noteDataSnapshot.getValue().toString();
-                    Map<String,String> map=(Map<String,String>)noteDataSnapshot.getValue();
-                    String note_name = map.get("note_name");
-                    String note_content = map.get("note_content");
-                    String note_timestamp = map.get("note_timestamp");
-                    String userId = map.get("userId");
-                    Double latitude = Double.valueOf(map.get("latitude"));
-                    Double longitude = Double.valueOf(map.get("longitude"));
-                    //dataList.add( noteDataSnapshot.getValue(NoteData.class));
-                    NoteData note = new NoteData(userId,note_name,note_content, note_timestamp, latitude, longitude);
-                    dataList.add(note);
-                    stringList.add(noteData);
-                }*/
-
-                dataList.clear();
-                for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
-                    NoteData note= noteDataSnapshot.getValue(NoteData.class);
-                            dataList.add(note);
-                }
-
-                for (Consumer subject : consumers) {
-                    subject.consume(dataList);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-  /* public void loadNotes(){
-        mDatabase_get.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dataList.clear();
-                for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
-                    String key = noteDataSnapshot.getKey();
-                    List<String> stringList = new ArrayList<>();
-                    String noteData = noteDataSnapshot.getValue().toString();
-                    Map<String,String> map=(Map<String,String>)noteDataSnapshot.getValue();
-                    String note_name = map.get("note_name");
-                    String note_content = map.get("note_content");
-                    String note_timestamp = map.get("note_timestamp");
-                    String userId = map.get("userId");
-                    Double latitude = Double.valueOf(map.get("latitude"));
-                    Double longitude = Double.valueOf(map.get("longitude"));
-                    //dataList.add( noteDataSnapshot.getValue(NoteData.class));
-                    NoteData note = new NoteData(userId,note_name,note_content, note_timestamp, latitude, longitude);
-                    dataList.add(note);
-                    stringList.add(noteData);
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
-                }
-                for (Consumer subject : consumers) {
-                    subject.consume(dataList);
-                }
-            }
-
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
-
-            }
-<<<<<<< HEAD
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-            }
-        };
-
-        mDatabase_get.addChildEventListener(childEventListener);
-    }
-=======
-        });
-
-    }*/
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 
 
     private final List<Consumer> consumers = new ArrayList<>();
@@ -276,11 +147,6 @@ public class NoteDataStoreImpl implements NoteDataStore {
     public void logoutUser() {
         mAuth.signOut();
         dataList.clear();
-<<<<<<< HEAD
-=======
-
-
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
     }
 
     @Override
@@ -294,7 +160,6 @@ public class NoteDataStoreImpl implements NoteDataStore {
 
     @Override
     public void addNote(NoteData noteData) {
-<<<<<<< HEAD
         if (noteData.getImageIds().size() == 0) {
             String key = mDatabase_post.child("inotes").push().getKey();
             noteData.setNoteId(key);
@@ -322,23 +187,11 @@ public class NoteDataStoreImpl implements NoteDataStore {
             mDatabase_post.updateChildren(childUpdates);
             //noteData.setImagePaths(imagepaths);
             // dataList.add(noteData);
-=======
-        String key = mDatabase_post.child("notes").push().getKey();
-        noteData.setNoteId(key);
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/notes/" + key, noteData);
-        childUpdates.put("/user-notes/" + noteData.getUserId() + "/" + key, noteData);
-        mDatabase_post.updateChildren(childUpdates);
-        dataList.add(noteData);
-        for (Consumer subject : consumers) {
-            subject.consume(dataList);
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         }
     }
 
 
     @Override
-<<<<<<< HEAD
     public void updateNote(int oldNoteToBeUpdated, NoteData noteData, boolean imageFlag) {
         if (imageFlag) {
             String key = noteData.getNoteId();
@@ -357,15 +210,6 @@ public class NoteDataStoreImpl implements NoteDataStore {
         mDatabase_post.updateChildren(childUpdates);*/
         dataList.remove(oldNoteToBeUpdated);
         dataList.add(oldNoteToBeUpdated, noteData);
-=======
-    public void updateNote(int oldNoteToBeUpdated, NoteData noteData) {
-        mDatabase_post = FirebaseDatabase.getInstance().getReference();
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/notes/" + noteData.getNoteId(), noteData);
-        childUpdates.put("/user-notes/" + noteData.getUserId() + "/" + noteData.getNoteId(), noteData);
-        mDatabase_post.updateChildren(childUpdates);
-        dataList.add(noteData);
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         for (Consumer subject : consumers) {
             subject.consume(dataList);
         }
@@ -374,7 +218,6 @@ public class NoteDataStoreImpl implements NoteDataStore {
     @Override
     public void deleteNote(int index) {
         NoteData noteData = dataList.get(index);
-<<<<<<< HEAD
         mDatabase_post = FirebaseDatabase.getInstance().getReference();
         mDatabase_post.child("inotes").child(noteData.getNoteId()).setValue(null);
         mDatabase_post.child("iuser-notes").child(noteData.getUserId()).child(noteData.getNoteId()).setValue(null);
@@ -382,12 +225,6 @@ public class NoteDataStoreImpl implements NoteDataStore {
         childUpdates.put("/inotes/" + noteData.getNoteId(), null);
         childUpdates.put("/iuser-notes/" + noteData.getUserId() + "/" + noteData.getNoteId(), null);
         mDatabase_post.updateChildren(childUpdates);*/
-=======
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/notes/" + noteData.getNoteId(), null);
-        childUpdates.put("/user-notes/" + noteData.getUserId() + "/" + noteData.getNoteId(), null);
-        mDatabase_post.updateChildren(childUpdates);
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
         dataList.remove(index);
         for (Consumer subject : consumers) {
             subject.consume(dataList);
@@ -396,11 +233,7 @@ public class NoteDataStoreImpl implements NoteDataStore {
 
     @Override
     public List<NoteData> getNotes() {
-<<<<<<< HEAD
         return dataList;
-=======
-            return dataList;
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
     }
 
     @Override
@@ -532,7 +365,6 @@ public class NoteDataStoreImpl implements NoteDataStore {
         }
     }
 
-<<<<<<< HEAD
         private void downloadImage ( final NoteData noteData) throws IOException {
             if (noteData.getImageIds() == null) {
 
@@ -575,260 +407,6 @@ public class NoteDataStoreImpl implements NoteDataStore {
 
             return -1;
         }
-=======
-    @Override
-    public void load_notes() {
-
-    }
-
->>>>>>> f7ea07f8ccaf619ea068cb8881acb22091e502ae
 }
 
-
-/*
-    private Target picassoImageTarget(final String imageDir, final String imageName) {
-        Log.d("picassoImageTarget", " picassoImageTarget");
-        ContextWrapper cw = new ContextWrapper(mcontext);
-        final File directory = cw.getDir(imageDir, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
-        final Target mTarget = new Target() {
-            @Override
-            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        final File myImageFile = new File(directory, imageName); // Create image file
-                        FileOutputStream fos = null;
-                        try {
-                            fos = new FileOutputStream(myImageFile);
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 25, fos);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } finally {
-                            try {
-                                fos.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
-                        //Toast.makeText(mcontext,"image saved to >>>" + myImageFile.getAbsolutePath(),Toast.LENGTH_SHORT).show();
-
-                    }
-                }).start();
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-            }
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                if (placeHolderDrawable != null) {
-
-                    final File myImageFile = new File(directory, imageName); // Create image file
-                    FileOutputStream fos = null;
-                    try {
-                        fos = new FileOutputStream(myImageFile);
-                   //     bitmap.compress(Bitmap.CompressFormat.JPEG, 25, fos);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        try {
-                            fos.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
-                }
-            }
-        };
-        return mTarget;
-    }
-*/
-
-
-
-
-
-
-
-
-
- /* public void loadNotes(){
-        mDatabase_get.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dataList.clear();
-                for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
-                    String key = noteDataSnapshot.getKey();
-                    List<String> stringList = new ArrayList<>();
-                    String noteData = noteDataSnapshot.getValue().toString();
-                    Map<String,String> map=(Map<String,String>)noteDataSnapshot.getValue();
-                    String note_name = map.get("note_name");
-                    String note_content = map.get("note_content");
-                    String note_timestamp = map.get("note_timestamp");
-                    String userId = map.get("userId");
-                    Double latitude = Double.valueOf(map.get("latitude"));
-                    Double longitude = Double.valueOf(map.get("longitude"));
-                    //dataList.add( noteDataSnapshot.getValue(NoteData.class));
-                    NoteData note = new NoteData(userId,note_name,note_content, note_timestamp, latitude, longitude);
-                    dataList.add(note);
-                    stringList.add(noteData);
-                }
-                for (Consumer subject : consumers) {
-                    subject.consume(dataList);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }*/
-
-
- /*        mDatabase_get.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                *//*for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
-                    String key = noteDataSnapshot.getKey();
-                    List<String> stringList = new ArrayList<>();
-                    String noteData = noteDataSnapshot.getValue().toString();
-                    Map<String,String> map=(Map<String,String>)noteDataSnapshot.getValue();
-                    String note_name = map.get("note_name");
-                    String note_content = map.get("note_content");
-                    String note_timestamp = map.get("note_timestamp");
-                    String userId = map.get("userId");
-                    Double latitude = Double.valueOf(map.get("latitude"));
-                    Double longitude = Double.valueOf(map.get("longitude"));
-                    //dataList.add( noteDataSnapshot.getValue(NoteData.class));
-                    NoteData note = new NoteData(userId,note_name,note_content, note_timestamp, latitude, longitude);
-                    dataList.add(note);
-                    stringList.add(noteData);
-                }*//*
-
-                    dataList.clear();
-
-                    int count = 0;
-                    int imageCount = 0;
-                    for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
-                        NoteData note= noteDataSnapshot.getValue(NoteData.class);
-                        dataList.add(note);
-
-                        if(note.getImageIds().size() != 0) {
-                        *//*int isImageAlreadyStore = searchImageId(note.getNoteId());
-                        if (isImageAlreadyStore != -1) {*//*
-                            try {
-                                downloadImage(note);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        *//*} else {
-                            ImageStoreStructure imageStoreStructure = new ImageStoreStructure(count, note.getNoteId(), null);
-                            image_note_store.add(imageStoreStructure);
-                            //image_note_id.add(note.getImageId());
-                            try {
-                                downloadImage(note);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }*//*
-                        }
-                    }
-
-                    for (Consumer subject : consumers) {
-                        subject.consume(dataList);
-                    }
-                }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
-
-    /*try {
-
-     *//*for (int ii = 0; ii < noteData.getImageIds().size(); ii++) {
-
-
-                    final File localFile = File.createTempFile(noteData.getImageIds().get(ii), "jpg");
-                    FileOutputStream fos = null;
-                    try {
-                        fos = new FileOutputStream(localFile);
-                        // Use the compress method on the BitMap object to write image to the OutputStream
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-                        try {
-                            fos.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    noteData.setImagePath(localFile.getAbsolutePath());
-                }*//*
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-
-
-//https://firebasestorage.googleapis.com/v0/b/note-40b8e.appspot.com/o/inote-images%2F-LSr-kqLGderUff2Bwhl%2F_0_-LSr-kqLGderUff2Bwhl.jpg?alt=media&token=95456721-8541-4c2b-9c00-61523db0b5d4
-//noteData.setImagePaths(null);
-
-
-///data/user/0/com.example.adityapatel.note/app_-LSv1LhiXH0engRq_V0w/__0-LSv1LhiXH0engRq_V0w.jpg
-///data/user/0/com.example.adityapatel.note/app_-LSv1LhiXH0engRq_V0w/__0-LSv1LhiXH0engRq_V0w.jpeg
-///data/user/0/com.example.adityapatel.note/app_-LSv-wy1voHLBfN1ioI7/__0-LSv-wy1voHLBfN1ioI7.jpeg
-///data/user/0/com.example.adityapatel.note/app_-LSv-wy1voHLBfN1ioI7/__0-LSv-wy1voHLBfN1ioI7.jpeg
-
-        /*mStorageRef = FirebaseStorage.getInstance().getReference().child("inote-images").child(noteData.getNoteId());
-        for(int i=0;i<noteData.getImageIds().size();i++) {
-            StorageReference storage = mStorageRef.child(noteData.getImageIds().get(i)+".jpg");
-            final String imageid = noteData.getImageIds().get(i);
-            storage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    // Got the download URL for 'users/me/profile.png'
-                    Picasso.with(mcontext).load(uri).into(picassoImageTarget( noteData.getNoteId(), imageid+".jpeg"));
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    String ec = exception.toString();
-
-                    // Handle any errors
-                }
-            });
-
-        }*/
-        /*if(image_note_store.get(index).getImagePaths() != null){
-
-            dataList.get(index).setImagePath(image_note_store.get(index).getImagePaths().get(0));
-        }
-        else {
-            mStorageRef = FirebaseStorage.getInstance().getReference().child("note-images").child(image_note_store.get(index).getId()+".jpg");
-
-            final File localFile = File.createTempFile(image_note_store.get(index).getNoteID(), "jpg");
-            mStorageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    // Local temp file has been created
-                    // Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                    image_note_store.get(index).setImagePath(localFile.getAbsolutePath());
-                    dataList.get(image_note_store.get(index).getId()).setImagePath(localFile.getAbsolutePath());
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any errors
-                }
-            });
-        }*/
 
