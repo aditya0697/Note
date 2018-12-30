@@ -12,4 +12,4 @@ Note is general purpose note taking application
 <p align="center">
   <img src="https://user-images.githubusercontent.com/17268094/50550875-87537a00-0c2c-11e9-8642-d6b98af4ab7e.jpeg" height="400" width="500" title="hover text">
 </p>
-<h4 align="center">App Architecture</h4>
+<h4 align="left">App Architecture</h4>
