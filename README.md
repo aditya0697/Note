@@ -9,7 +9,7 @@ Note is general purpose note taking application
   <img src="https://user-images.githubusercontent.com/9878547/50550987-ddc1b800-0c2e-11e9-9c15-9a7b57b657ae.gif" height="400" width="200" title="hover text">
 </p>
 
-<p align="center">
+<h4 align="left">App Architecture</h4>
+<p align="left">
   <img src="https://user-images.githubusercontent.com/17268094/50550875-87537a00-0c2c-11e9-8642-d6b98af4ab7e.jpeg" height="400" width="500" title="hover text">
 </p>
-<h4 align="left">App Architecture</h4>
